@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:48:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/04 10:19:59 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/06 16:16:06 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,36 @@
 
 void	ft_start(void)
 {
+	char	*tmp;
+
+	tmp = g_s->in;
 	add_history(g_s->in);
+	g_s->in = ft_strtrim(g_s->in, " ");
+	free(tmp);
+	ft_parsing();
 }
 
 void	ft_shlvl(void)
 {
-	int	i;
+	int		i;
+	char	*tmp;
+	char	*res;
 
 	i = 0;
 	while (ft_strncmp(g_s->env[i], "SHLVL=", 6))
 		if (!g_s->env[++i])
 			exit(write(2, "unset\n", 6));
-	free(g_s->env[i]);
+	tmp = g_s->env[i];
 	if (ft_atoi(g_s->env[i] + 6) == 999)
 		g_s->env[i] = "SHLVL=";
 	else if (!ft_atoi(g_s->env[i] + 6))
 		g_s->env[i] = "SHLVL=1";
 	else
-		g_s->env[i] = ft_strjoin("SHLVL=",
-				ft_itoa(ft_atoi(g_s->env[i] + 6) + 1), 0, 1);
+	{
+		res = ft_itoa(ft_atoi(g_s->env[i] + 6) + 1);
+		g_s->env[i] = ft_strjoin("SHLVL=", res, 0, 1);
+	}
+	free(tmp);
 }
 
 void	ft_init_env(char **env)
@@ -71,13 +82,10 @@ int	main(int ac, char **av, char **env)
 		if (!g_s->in)
 			exit(0);
 		else if (!g_s->in[0])
-		{
-			free(g_s->in);
 			continue ;
-		}
 		else
 			ft_start();
-		if (!g_s->in)
+		if (g_s->in)
 			free(g_s->in);
 	}
 }
