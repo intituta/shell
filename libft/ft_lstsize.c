@@ -1,37 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/03 16:49:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/06 20:04:25 by kferterb         ###   ########.fr       */
+/*   Created: 2022/03/04 12:26:01 by kferterb          #+#    #+#             */
+/*   Updated: 2022/03/04 12:29:08 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <signal.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include "../libft/libft.h"
-
-typedef struct s_s
+int	ft_lstsize(t_list *lst)
 {
-	char	*in;
-	char	**env;
-	int		ex_code;
-	int		dollar_flag;
-}	t_s;
+	int		len;
 
-void	ft_sig(void);
-void	ft_parsing(void);
-
-t_s	*g_s;
-
-#endif
+	if (!lst)
+		return (0);
+	len = 0;
+	while (lst)
+	{
+		len++;
+		lst = lst -> next;
+	}
+	return (len);
+}

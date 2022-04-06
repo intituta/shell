@@ -1,37 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/03 16:49:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/06 20:04:25 by kferterb         ###   ########.fr       */
+/*   Created: 2021/10/12 12:18:48 by kferterb          #+#    #+#             */
+/*   Updated: 2022/03/04 12:29:10 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <signal.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include "../libft/libft.h"
-
-typedef struct s_s
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	char	*in;
-	char	**env;
-	int		ex_code;
-	int		dollar_flag;
-}	t_s;
+	size_t			i;
+	unsigned char	*ss;
 
-void	ft_sig(void);
-void	ft_parsing(void);
-
-t_s	*g_s;
-
-#endif
+	i = -1;
+	ss = (unsigned char *)s;
+	if (n == 0)
+		return (NULL);
+	while (++i < n)
+		if (ss[i] == (unsigned char)c)
+			return (&ss[i]);
+	return (0);
+}

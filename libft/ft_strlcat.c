@@ -1,37 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/03 16:49:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/06 20:04:25 by kferterb         ###   ########.fr       */
+/*   Created: 2021/10/14 11:54:21 by kferterb          #+#    #+#             */
+/*   Updated: 2022/03/04 12:46:34 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <signal.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include "../libft/libft.h"
+#include "libft.h"
 
-typedef struct s_s
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
-	char	*in;
-	char	**env;
-	int		ex_code;
-	int		dollar_flag;
-}	t_s;
+	size_t	res;
+	size_t	i;
 
-void	ft_sig(void);
-void	ft_parsing(void);
-
-t_s	*g_s;
-
-#endif
+	i = dstsize;
+	res = ft_strlen(dst) + ft_strlen(src);
+	while (*dst != 0 && dstsize > 0)
+	{
+		dst++;
+		dstsize--;
+	}
+	if (dstsize == 0)
+		return (ft_strlen(src) + i);
+	while (*src != 0 && dstsize > 1)
+	{
+		*dst++ = *src++;
+		dstsize--;
+	}
+	*dst = '\0';
+	return (res);
+}

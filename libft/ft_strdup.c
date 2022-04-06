@@ -1,37 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/03 16:49:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/06 20:04:25 by kferterb         ###   ########.fr       */
+/*   Created: 2021/10/12 20:40:50 by kferterb          #+#    #+#             */
+/*   Updated: 2022/03/04 12:29:46 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <signal.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include "../libft/libft.h"
-
-typedef struct s_s
+char	*ft_strdup(const char *s1)
 {
-	char	*in;
-	char	**env;
-	int		ex_code;
-	int		dollar_flag;
-}	t_s;
+	int		i;
+	int		j;
+	char	*str;
 
-void	ft_sig(void);
-void	ft_parsing(void);
-
-t_s	*g_s;
-
-#endif
+	i = 0;
+	while (s1[i])
+		i++;
+	str = (char *)malloc(sizeof(*str) * (i + 1));
+	if (str == NULL)
+		return (NULL);
+	j = -1;
+	while (++j < i)
+		str[j] = s1[j];
+	str[j] = '\0';
+	return (str);
+}

@@ -1,37 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/03 16:49:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/06 20:04:25 by kferterb         ###   ########.fr       */
+/*   Created: 2021/10/14 14:24:19 by kferterb          #+#    #+#             */
+/*   Updated: 2022/03/04 12:30:20 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <signal.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include "../libft/libft.h"
-
-typedef struct s_s
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*in;
-	char	**env;
-	int		ex_code;
-	int		dollar_flag;
-}	t_s;
+	size_t	i;
+	size_t	j;
+	char	*res;
 
-void	ft_sig(void);
-void	ft_parsing(void);
-
-t_s	*g_s;
-
-#endif
+	if (!s)
+		return (0);
+	i = ft_strlen(s);
+	if (i < len)
+		len = i;
+	res = malloc(len + 1);
+	if (!res)
+		return (NULL);
+	i = -1;
+	j = 0;
+	while (s[++i])
+		if (i >= start && j < len)
+			res[j++] = s[i];
+	res[j] = '\0';
+	return (res);
+}

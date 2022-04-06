@@ -6,7 +6,7 @@
 #    By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/06 10:56:01 by kferterb          #+#    #+#              #
-#    Updated: 2022/04/06 13:01:23 by kferterb         ###   ########.fr        #
+#    Updated: 2022/04/06 20:04:07 by kferterb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ OBJ_DIR					:=	obj
 FLAGS					:=	-Wall -Wextra -Werror
 INCLUDE					:=	include
 
-LIBFT_DIR				:=	libs/libft
+LIBFT_DIR				:=	libft
 LIBS					:=	$(LIBFT_DIR)/libft.a \
 							-L /Users/$(USER)/.brew/opt/readline/lib -lreadline
 
