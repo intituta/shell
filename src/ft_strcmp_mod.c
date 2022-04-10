@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strcmp_mod.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/06 09:53:36 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/07 14:54:15 by kferterb         ###   ########.fr       */
+/*   Created: 2022/04/10 10:26:40 by kferterb          #+#    #+#             */
+/*   Updated: 2022/04/10 10:26:55 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "stdlib.h"
+#include "minishell.h"
 
-int	ft_strlen(char *s)
+int	ft_strcmp(char *s1, char *s2)
 {
 	int	i;
 
 	i = 0;
-	if (!s)
-		return (0);
-	while (s[i] != '\0')
+	if (s1 == NULL || s2 == NULL)
+		return (1);
+	while (s1[i] || s2[i])
+	{
+		if (i != 0 && s1[i] == '\n' && s2[i] != '\n')
+			return (0);
+		if (s1[i] != s2[i])
+			return (s1[i] - s2[i]);
 		i++;
-	return (i);
+	}
+	return (0);
 }

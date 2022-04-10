@@ -6,7 +6,7 @@
 #    By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/06 10:56:01 by kferterb          #+#    #+#              #
-#    Updated: 2022/04/06 20:04:07 by kferterb         ###   ########.fr        #
+#    Updated: 2022/04/10 10:27:14 by kferterb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ NAME					:=	minishell
 
 CC						:=	clang
 OBJ_DIR					:=	obj
-FLAGS					:=	-Wall -Wextra -Werror
+FLAGS					:=	#-Wall -Wextra -Werror
 INCLUDE					:=	include
 
 LIBFT_DIR				:=	libft
@@ -31,8 +31,12 @@ LIBS					:=	$(LIBFT_DIR)/libft.a \
 VPATH					:=	src \
 
 SRC						:=	main.c \
+							ft_gnl_mod.c \
+							ft_parsing.c \
 							ft_signals.c \
-							ft_parse_utils.c
+							ft_split_mod.c \
+							ft_strcmp_mod.c \
+							ft_parsing_utils.c \
 
 
 OBJ						:=	$(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.c=.o)))

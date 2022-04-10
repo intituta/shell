@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_gnl_mod.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/06 09:53:36 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/07 14:54:15 by kferterb         ###   ########.fr       */
+/*   Created: 2022/04/10 10:24:22 by kferterb          #+#    #+#             */
+/*   Updated: 2022/04/10 10:24:32 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "stdlib.h"
+#include "minishell.h"
 
-int	ft_strlen(char *s)
+char	*ft_gnl(void)
 {
-	int	i;
+	char	*res;
+	char	*buf;
 
-	i = 0;
-	if (!s)
-		return (0);
-	while (s[i] != '\0')
-		i++;
-	return (i);
+	res = NULL;
+	buf = malloc(2);
+	while (read(0, buf, 1) == 1 && buf[0] != '\0')
+	{
+		buf[1] = '\0';
+		res = ft_strjoin(res, buf, 1, 0);
+		if (buf[0] == '\n')
+			break ;
+	}
+	free(buf);
+	return (res);
 }
