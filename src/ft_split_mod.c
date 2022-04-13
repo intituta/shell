@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 18:05:09 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/09 19:49:32 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/12 17:44:05 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ char	**ft_split_mod(char *s, char c)
 	count = ft_count_word(s, c);
 	if (count == -1)
 		return (NULL);
-	g_s->count_args = count;
+	g_o.count_args = count;
 	str = (char **)malloc(sizeof(char *) * (count + 1));
 	if (!str)
 		return (NULL);

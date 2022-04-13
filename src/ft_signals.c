@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 12:38:13 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/06 12:38:40 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/11 12:54:37 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ void	ft_handler(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-	g_s->ex_code = 1;
+	g_o.exit_code = 1;
 }
 
-void	ft_sig(void)
+void	ft_signals(void)
 {
 	struct sigaction	sa;
 	sigset_t			set;

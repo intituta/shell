@@ -5,70 +5,65 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/10 09:20:55 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/10 10:51:43 by kferterb         ###   ########.fr       */
+/*   Created: 2022/04/11 13:12:09 by kferterb          #+#    #+#             */
+/*   Updated: 2022/04/13 10:52:24 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_heredoc(char *limit)
+char	*ft_redirects(t_lst *o, int *j)
 {
-	char	*tmp;
-	char	*res;
-
-	res = NULL;
-	while (1)
+	if (o->str[*j] == '<' && o->str[*j + 1] == '<' && !o->flag_meta_symbol)
 	{
-		write(1, "> ", 2);
-		tmp = ft_gnl();
-		if (ft_strcmp(tmp, limit) == 0)
-			break ;
-		if (!tmp)
-			return (free(limit), free(res));
-		res = ft_strjoin(res, tmp, 1, 1);
+		if (ft_strlen(o->str) == 2 && !o->flag_meta_symbol)
+			o->str = ft_parse_heredoc_lite(o, j);
+		else
+			o->str = ft_parse_heredoc(o, j);
 	}
-	g_s->heredoc = res;
-	free(limit);
-	free(tmp);
-	free(res);
-}
-
-void	ft_redirects(void)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	while (++i < g_s->count_args)
+	else if (o->str[*j] == '<')
 	{
-		j = -1;
-		while (g_s->t_a[i].str[++j])
-		{
-			if (g_s->t_a[i].str[j] == '<' && g_s->t_a[i].str[j + 1] == '<')
-			{
-				if (ft_strlen(g_s->t_a[i].str) != 2)
-					return ((void)write(2, "syntax error\n", 13));
-				ft_heredoc(g_s->t_a[i + 1].str);
-			}
-		}
+		if (ft_strlen(o->str) == 1 && !o->flag_meta_symbol)
+			o->str = ft_parse_redirect_lite(o, j, 1);
+		else
+			o->str = ft_parse_redirect(o, j, 1);
 	}
+	else if (o->str[*j] == '>' && o->str[*j + 1] == '>')
+	{
+		if (ft_strlen(o->str) == 2 && !o->flag_meta_symbol)
+			o->str = ft_parse_redirect_lite(o, j, 3);
+		else
+			o->str = ft_parse_redirect(o, j, 3);
+	}
+	else if (o->str[*j] == '>')
+	{
+		if (ft_strlen(o->str) == 1 && !o->flag_meta_symbol)
+			o->str = ft_parse_redirect_lite(o, j, 2);
+		else
+			o->str = ft_parse_redirect(o, j, 2);
+	}
+	return (o->str);
 }
 
 char	*ft_find_env(char *s)
 {
-	int		i;
 	char	*res;
+	t_lst	*tmp;
 
-	i = 0;
-	s = ft_strjoin(s, "=", 1, 0);
-	while (!ft_strnstr(g_s->env[i], s, ft_strlen(s)))
+	res = NULL;
+	tmp = g_o.env;
+	while (tmp)
 	{
-		if (!g_s->env[++i])
-			return (free(s), ft_strdup(""));
+		if (!ft_strncmp(tmp->str, s, ft_strlen(s)))
+		{
+			if (tmp->str[ft_strlen(s)] == '=')
+				res = ft_substr(tmp->str, ft_strlen(s) + 1,
+						ft_strlen(tmp->str));
+		}
+		tmp = tmp->next;
 	}
-	res = ft_substr(g_s->env[i], ft_strlen(s), ft_strlen(g_s->env[i]));
-	return (free(s), res);
+	free(s);
+	return (res);
 }
 
 char	*find_dollar(char *str)
@@ -91,4 +86,19 @@ int	ft_check_quotes(char *s, int *index, char c)
 	return (1);
 }
 
+void	ft_preparsing(void)
+{
+	int	i;
 
+	i = -1;
+	add_history(g_o.input);
+	g_o.split = ft_split_mod(g_o.input, ' ');
+	while (g_o.split[++i])
+	{
+		if (!g_o.args)
+			g_o.args = ft_lstnew(ft_strdup(g_o.split[i]));
+		else
+			ft_lstadd_back(&g_o.args, ft_lstnew(ft_strdup(g_o.split[i])));
+	}
+	ft_parsing();
+}

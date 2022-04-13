@@ -6,20 +6,20 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 18:26:13 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/07 14:53:42 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/12 10:40:13 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(char *s1, char *s2, int flag, int flag2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	int		i;
 	int		j;
 	char	*res;
 
-	if (s1 == NULL && s2 == NULL)
-		return (NULL);
+	if (s1 == NULL)
+		return (s2);
 	res = malloc(sizeof(*res) * (ft_strlen(s1) + ft_strlen(s2)) + 1);
 	if (!res)
 		return (NULL);
@@ -30,9 +30,5 @@ char	*ft_strjoin(char *s1, char *s2, int flag, int flag2)
 	while (s2[++j])
 		res[i + j] = s2[j];
 	res[i + j] = '\0';
-	if (flag)
-		free(s1);
-	if (flag2)
-		free(s2);
 	return (res);
 }

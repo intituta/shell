@@ -1,36 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstmap.c                                        :+:      :+:    :+:   */
+/*   ft_parsing_utils2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/04 12:25:45 by kferterb          #+#    #+#             */
-/*   Updated: 2022/03/04 13:53:31 by kferterb         ###   ########.fr       */
+/*   Created: 2022/04/13 10:05:03 by kferterb          #+#    #+#             */
+/*   Updated: 2022/04/13 10:06:01 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
+void	ft_check_parse(t_lst *o)
 {
-	t_list	*new;
-	t_list	*res;
+	int	i;
 
-	if (!lst || !f)
-		return (NULL);
-	res = ft_lstnew(f(lst->content));
-	lst = lst->next;
-	while (lst)
+	i = -1;
+	while (o->str[++i])
 	{
-		new = ft_lstnew(f(lst->content));
-		if (!new)
+		if (o->str[i] == '\'')
+				o->str = ft_parse_quotes(o, &i, '\'');
+		else if (o->str[i] == '"')
 		{
-			ft_lstclear(&res, del);
-			return (NULL);
+			o->flag_meta_symbol = 1;
+			o->str = ft_parse_quotes(o, &i, '"');
 		}
-		ft_lstadd_back(&res, new);
-		lst = lst->next;
+		else if (o->str[i] == '$'
+			&& (ft_isalnum(o->str[i + 1]) || o->str[i + 1] == '?'))
+				o->str = ft_parse_dollar(o->str, &i);
 	}
-	return (res);
+	o->flag_meta_symbol = 0;
 }

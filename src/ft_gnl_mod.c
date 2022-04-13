@@ -6,11 +6,34 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/10 10:24:22 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/10 10:24:32 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/12 17:47:02 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_heredoc(char *limit)
+{
+	char	*tmp;
+	char	*res;
+
+	res = NULL;
+	while (1)
+	{
+		write(1, "> ", 2);
+		tmp = ft_gnl();
+		if (ft_strcmp(tmp, limit) == 0)
+			break ;
+		if (!tmp)
+			return (free(res));
+		res = ft_sjoin(res, tmp, 1, 1);
+	}
+	pipe(g_o.pipe);
+	write(g_o.pipe[1], res, ft_strlen(res));
+	g_o.heredoc_flag = 1;
+	free(tmp);
+	free(res);
+}
 
 char	*ft_gnl(void)
 {
@@ -22,7 +45,7 @@ char	*ft_gnl(void)
 	while (read(0, buf, 1) == 1 && buf[0] != '\0')
 	{
 		buf[1] = '\0';
-		res = ft_strjoin(res, buf, 1, 0);
+		res = ft_sjoin(res, buf, 1, 0);
 		if (buf[0] == '\n')
 			break ;
 	}

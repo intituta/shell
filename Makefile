@@ -6,7 +6,7 @@
 #    By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/06 10:56:01 by kferterb          #+#    #+#              #
-#    Updated: 2022/04/10 10:27:14 by kferterb         ###   ########.fr        #
+#    Updated: 2022/04/13 10:09:29 by kferterb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,12 +32,16 @@ VPATH					:=	src \
 
 SRC						:=	main.c \
 							ft_gnl_mod.c \
-							ft_parsing.c \
 							ft_signals.c \
+							ft_parsing.c \
+							ft_parsing2.c \
 							ft_split_mod.c \
+							ft_substr_mod.c \
+							ft_list_utils.c \
 							ft_strcmp_mod.c \
+							ft_strjoin_mod.c \
 							ft_parsing_utils.c \
-
+							ft_parsing_utils2.c \
 
 OBJ						:=	$(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.c=.o)))
 DEP						:=	$(wildcard $(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.c=.d))))
