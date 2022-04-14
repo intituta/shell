@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:49:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/14 11:42:34 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/14 15:58:10 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ t_o	g_o;
 t_lst	*ft_lstnew(void *content);
 
 int		ft_strcmp(char *s1, char *s2);
+int		ft_open_file(t_lst *o, int flag);
 int		ft_check_quotes(char *s, int *index, char c);
 
 char	*ft_gnl(void);
@@ -63,11 +64,10 @@ char	*ft_redirects(t_lst *o, int *j);
 char	**ft_split_mod(char *s, char c);
 char	*ft_parse_heredoc(t_lst *o, int *j);
 char	*ft_parse_dollar(char *str, int *index);
-char	*ft_parse_heredoc_lite(t_lst *o, int *j);
 char	*ft_parse_quotes(t_lst *o, int *j, char c);
+char	*ft_parse_lite(t_lst *o, int flag, int flag2);
 char	*ft_parse_redirect(t_lst *o, int *j, int flag);
 char	*ft_sjoin(char *s1, char *s2, int flag, int flag2);
-char	*ft_parse_redirect_lite(t_lst *o, int *j, int flag);
 char	*ft_substr_mod(char *s, int start, int len, int flag);
 
 void	ft_parsing(void);

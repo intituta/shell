@@ -6,22 +6,35 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 13:40:01 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/14 10:29:18 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/14 15:48:11 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_parse_heredoc_lite(t_lst *o, int *j)
+char	*ft_parse_lite(t_lst *o, int flag, int flag2)
 {
-	if (o->next->str[0] == '|' || o->next->str[0] == '<'
-		|| o->next->str[0] == '>')
+	int		i;
+	char	*end;
+	char	*tmp;
+
+	i = 0;
+	if (flag && (o->next->str[0] == '|' || o->next->str[0] == '<'
+			|| o->next->str[0] == '>' || !o->next->str[0]))
 		return (write(2, "syntax error\n", 13), free(o->str), NULL);
+	else if (o->next->str[0] == '|' || !o->next->str[0])
+		return (write(2, "syntax error\n", 13), free(o->str), NULL);
+	ft_check_meta(o->next, &i);
+	end = ft_substr(o->next->str, i, ft_strlen(o->next->str));
+	o->next->str = ft_substr_mod(o->next->str, 0, i, 1);
 	ft_check_parse(o->next);
-	ft_heredoc(o->next->str);
-	free(o->next->str);
-	o->next->str = NULL;
-	return (free(o->str), NULL);
+	if (flag)
+		ft_heredoc(o->next->str);
+	else if (ft_open_file(o->next, flag2))
+		return (write(2, "error open file\n", 13), free(o->str), NULL);
+	tmp = o->next->str;
+	o->next->str = ft_substr_mod(end, 0, ft_strlen(end), 1);
+	return (free(tmp), free(o->str), NULL);
 }
 
 char	*ft_parse_heredoc(t_lst *o, int *j)
@@ -31,7 +44,7 @@ char	*ft_parse_heredoc(t_lst *o, int *j)
 	char	*start;
 
 	if (g_o.count > 1 && ft_strlen(o->str) == 2 && !o->flag_meta)
-		return (ft_parse_heredoc_lite(o, j));
+		return (ft_parse_lite(o, 1, 0));
 	i = *j + 2;
 	start = ft_substr(o->str, 0, *j);
 	ft_check_meta(o, &i);
