@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:48:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/13 10:30:28 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/14 11:41:57 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	ft_shlvl(void)
 {
 	t_lst	*lst;
 	char	*tmp;
-	char	*tmp2;
 
 	lst = g_o.env;
 	while (lst)
@@ -30,8 +29,8 @@ void	ft_shlvl(void)
 			else
 			{
 				tmp = lst->str;
-				tmp2 = ft_itoa(ft_atoi(lst->str + 6) + 1);
-				lst->str = ft_sjoin("SHLVL=", tmp2, 0, 1);
+				lst->str = ft_sjoin("SHLVL=",
+						ft_itoa(ft_atoi(lst->str + 6) + 1), 0, 1);
 				free(tmp);
 			}
 		}
@@ -53,22 +52,18 @@ void	ft_init_env(char **env)
 	}
 }
 
-void	ft_init_struct(void)
+void	ft_init_struct(int flag)
 {
-	g_o.fd_in = 0;
-	g_o.fd_out = 0;
-	g_o.fd_re_out = 0;
-	g_o.in_file_flag = 0;
-	g_o.out_file_flag = 0;
-	g_o.re_out_file_flag = 0;
-	g_o.pipe[0] = 0;
-	g_o.pipe[1] = 0;
-	g_o.env = NULL;
+	if (flag)
+		g_o.env = NULL;
 	g_o.args = NULL;
 	g_o.input = NULL;
 	g_o.split = NULL;
-	g_o.exit_code = 0;
-	g_o.heredoc_flag = 0;
+	g_o.fd_in = -2;
+	g_o.ex_code = 0;
+	g_o.fd_out = -2;
+	g_o.pipe[0] = -2;
+	g_o.pipe[1] = -2;
 }
 
 void	ft_printf(void)
@@ -78,7 +73,7 @@ void	ft_printf(void)
 	tmp = g_o.args;
 	while (tmp)
 	{
-		printf("str = %s, meta_flag = %d\n", tmp->str, tmp->flag_meta_symbol);
+		printf("str = %s, meta_flag = %d\n", tmp->str, tmp->flag_meta);
 		tmp = tmp->next;
 	}
 }
@@ -87,7 +82,7 @@ int	main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
-	ft_init_struct();
+	ft_init_struct(1);
 	ft_init_env(env);
 	ft_shlvl();
 	while (1)

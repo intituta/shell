@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:49:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/13 10:39:06 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/14 11:42:34 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,11 @@
 
 typedef struct s_lst
 {
+	int				fd_in;
+	int				fd_out;
+	char			**execve;
 	char			*str;
-	int				flag_meta_symbol;
+	int				flag_meta;
 	struct s_lst	*next;
 }	t_lst;
 
@@ -36,18 +39,14 @@ typedef struct s_o
 {
 	char	*input;
 	char	**split;
-	int		exit_code;
-	int		count_args;
+	int		ex_code;
+	int		count;
 	int		fd_in;
-	int		in_file_flag;
 	int		fd_out;
-	int		out_file_flag;
-	int		fd_re_out;
-	int		re_out_file_flag;
 	int		pipe[2];
-	int		heredoc_flag;
 	t_lst	*args;
 	t_lst	*env;
+	t_lst	*final;
 }	t_o;
 
 t_o	g_o;
@@ -75,9 +74,10 @@ void	ft_parsing(void);
 void	ft_signals(void);
 void	ft_free_all(void);
 void	ft_preparsing(void);
-void	ft_init_struct(void);
 void	ft_heredoc(char *limit);
+void	ft_init_struct(int flag);
 void	ft_check_parse(t_lst *o);
+void	ft_check_meta(t_lst *o, int *i);
 void	ft_lstadd_back(t_lst **lst, t_lst *new);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 10:05:03 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/13 10:06:01 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/14 09:51:08 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ void	ft_check_parse(t_lst *o)
 				o->str = ft_parse_quotes(o, &i, '\'');
 		else if (o->str[i] == '"')
 		{
-			o->flag_meta_symbol = 1;
+			o->flag_meta = 1;
 			o->str = ft_parse_quotes(o, &i, '"');
 		}
 		else if (o->str[i] == '$'
 			&& (ft_isalnum(o->str[i + 1]) || o->str[i + 1] == '?'))
 				o->str = ft_parse_dollar(o->str, &i);
 	}
-	o->flag_meta_symbol = 0;
+	o->flag_meta = 0;
 }

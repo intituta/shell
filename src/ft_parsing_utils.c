@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 13:12:09 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/13 10:52:24 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/14 11:37:18 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,14 @@
 
 char	*ft_redirects(t_lst *o, int *j)
 {
-	if (o->str[*j] == '<' && o->str[*j + 1] == '<' && !o->flag_meta_symbol)
-	{
-		if (ft_strlen(o->str) == 2 && !o->flag_meta_symbol)
-			o->str = ft_parse_heredoc_lite(o, j);
-		else
-			o->str = ft_parse_heredoc(o, j);
-	}
+	if (o->str[*j] == '<' && o->str[*j + 1] == '<' && !o->flag_meta)
+		o->str = ft_parse_heredoc(o, j);
 	else if (o->str[*j] == '<')
-	{
-		if (ft_strlen(o->str) == 1 && !o->flag_meta_symbol)
-			o->str = ft_parse_redirect_lite(o, j, 1);
-		else
-			o->str = ft_parse_redirect(o, j, 1);
-	}
+		o->str = ft_parse_redirect(o, j, 1);
 	else if (o->str[*j] == '>' && o->str[*j + 1] == '>')
-	{
-		if (ft_strlen(o->str) == 2 && !o->flag_meta_symbol)
-			o->str = ft_parse_redirect_lite(o, j, 3);
-		else
-			o->str = ft_parse_redirect(o, j, 3);
-	}
+		o->str = ft_parse_redirect(o, j, 3);
 	else if (o->str[*j] == '>')
-	{
-		if (ft_strlen(o->str) == 1 && !o->flag_meta_symbol)
-			o->str = ft_parse_redirect_lite(o, j, 2);
-		else
-			o->str = ft_parse_redirect(o, j, 2);
-	}
+		o->str = ft_parse_redirect(o, j, 2);
 	return (o->str);
 }
 

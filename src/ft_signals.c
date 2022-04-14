@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 12:38:13 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/11 12:54:37 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/14 09:09:19 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_handler(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-	g_o.exit_code = 1;
+	g_o.ex_code = 1;
 }
 
 void	ft_signals(void)

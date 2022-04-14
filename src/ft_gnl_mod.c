@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/10 10:24:22 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/12 17:47:02 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/14 10:26:24 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_heredoc(char *limit)
 	}
 	pipe(g_o.pipe);
 	write(g_o.pipe[1], res, ft_strlen(res));
-	g_o.heredoc_flag = 1;
+	g_o.fd_in = g_o.pipe[0];
 	free(tmp);
 	free(res);
 }
