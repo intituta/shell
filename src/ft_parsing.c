@@ -6,11 +6,38 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 13:40:01 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/14 15:48:11 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/14 19:02:39 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*ft_parse_redirect(t_lst *o, int *j, int flag)
+{
+	int		i;
+	char	*start;
+	char	*mid;
+	char	*end;
+
+	if (ft_check_lite(o, flag))
+		return (ft_parse_lite(o, 0, flag));
+	ft_check_flag(&i, j, flag);
+	start = ft_substr(o->str, 0, *j);
+	mid = ft_substr(o->str, *j, ft_strlen(o->str));
+	ft_check_spase(j, mid, o);
+	ft_check_meta(o, &i);
+	end = ft_substr(o->str, i, ft_strlen(o->str));
+	if (!end)
+		return (free(start), o->str);
+	ft_check_flag2(*j, flag, i, o);
+	if (o->str[0] == '|' || o->str[0] == '<' || o->str[0] == '>' || !o->str[0])
+		return (printf("error\n"), free(o->str), free(start), free(end), NULL);
+	ft_check_parse(o);
+	if (ft_open_file(o, flag))
+		return (printf("error\n"), free(o->str), free(start), free(end), NULL);
+	*j = -1;
+	return (free(o->str), ft_sjoin(start, end, 1, 1));
+}
 
 char	*ft_parse_lite(t_lst *o, int flag, int flag2)
 {
@@ -105,30 +132,4 @@ char	*ft_parse_quotes(t_lst *o, int *j, char c)
 	*j = ft_strlen(mid) - 1;
 	end = ft_substr(o->str, k + 1, ft_strlen(o->str));
 	return (ft_sjoin(ft_sjoin(start, mid, 1, 1), end, 1, 1));
-}
-
-void	ft_parsing(void)
-{
-	int		j;
-	t_lst	*tmp;
-
-	tmp = g_o.args;
-	while (tmp)
-	{
-		j = -1;
-		while (tmp->str && tmp->str[++j])
-		{
-			if (tmp->str[j] == '\'')
-				tmp->str = ft_parse_quotes(tmp, &j, '\'');
-			else if (tmp->str[j] == '"')
-				tmp->str = ft_parse_quotes(tmp, &j, '"');
-			else if (tmp->str[j] == '$'
-				&& (ft_isalnum(tmp->str[j + 1]) || tmp->str[j + 1] == '?'))
-					tmp->str = ft_parse_dollar(tmp->str, &j);
-			else if (tmp->str[j] == '<' || tmp->str[j] == '>')
-				tmp->str = ft_redirects(tmp, &j);
-		}
-		tmp = tmp->next;
-	}
-	return ;
 }

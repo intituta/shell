@@ -6,45 +6,11 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 13:12:09 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/14 13:51:57 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/14 19:03:32 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*ft_redirects(t_lst *o, int *j)
-{
-	if (o->str[*j] == '<' && o->str[*j + 1] == '<' && !o->flag_meta)
-		o->str = ft_parse_heredoc(o, j);
-	else if (o->str[*j] == '<')
-		o->str = ft_parse_redirect(o, j, 1);
-	else if (o->str[*j] == '>' && o->str[*j + 1] == '>')
-		o->str = ft_parse_redirect(o, j, 3);
-	else if (o->str[*j] == '>')
-		o->str = ft_parse_redirect(o, j, 2);
-	return (o->str);
-}
-
-char	*ft_find_env(char *s)
-{
-	char	*res;
-	t_lst	*tmp;
-
-	res = NULL;
-	tmp = g_o.env;
-	while (tmp)
-	{
-		if (!ft_strncmp(tmp->str, s, ft_strlen(s)))
-		{
-			if (tmp->str[ft_strlen(s)] == '=')
-				res = ft_substr(tmp->str, ft_strlen(s) + 1,
-						ft_strlen(tmp->str));
-		}
-		tmp = tmp->next;
-	}
-	free(s);
-	return (res);
-}
 
 char	*find_dollar(char *str)
 {
@@ -64,6 +30,45 @@ int	ft_check_quotes(char *s, int *index, char c)
 		if (!s[++(*index)])
 			return (printf("error quote\n"), 0);
 	return (1);
+}
+
+char	*ft_redirects(t_lst *o, int *j)
+{
+	if (o->str[*j] == '<' && o->str[*j + 1] == '<' && !o->flag_meta)
+		o->str = ft_parse_heredoc(o, j);
+	else if (o->str[*j] == '<')
+		o->str = ft_parse_redirect(o, j, 1);
+	else if (o->str[*j] == '>' && o->str[*j + 1] == '>')
+		o->str = ft_parse_redirect(o, j, 3);
+	else if (o->str[*j] == '>')
+		o->str = ft_parse_redirect(o, j, 2);
+	return (o->str);
+}
+
+void	ft_parsing(void)
+{
+	int		j;
+	t_lst	*tmp;
+
+	tmp = g_o.args;
+	while (tmp)
+	{
+		j = -1;
+		while (tmp->str && tmp->str[++j])
+		{
+			if (tmp->str[j] == '\'')
+				tmp->str = ft_parse_quotes(tmp, &j, '\'');
+			else if (tmp->str[j] == '"')
+				tmp->str = ft_parse_quotes(tmp, &j, '"');
+			else if (tmp->str[j] == '$'
+				&& (ft_isalnum(tmp->str[j + 1]) || tmp->str[j + 1] == '?'))
+					tmp->str = ft_parse_dollar(tmp->str, &j);
+			else if (tmp->str[j] == '<' || tmp->str[j] == '>')
+				tmp->str = ft_redirects(tmp, &j);
+		}
+		tmp = tmp->next;
+	}
+	return ;
 }
 
 void	ft_preparsing(void)

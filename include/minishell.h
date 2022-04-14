@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:49:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/14 15:58:10 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/14 19:07:29 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ t_lst	*ft_lstnew(void *content);
 
 int		ft_strcmp(char *s1, char *s2);
 int		ft_open_file(t_lst *o, int flag);
+int		ft_check_lite(t_lst *o, int flag);
 int		ft_check_quotes(char *s, int *index, char c);
 
 char	*ft_gnl(void);
@@ -78,6 +79,9 @@ void	ft_heredoc(char *limit);
 void	ft_init_struct(int flag);
 void	ft_check_parse(t_lst *o);
 void	ft_check_meta(t_lst *o, int *i);
+void	ft_check_flag(int *i, int *j, int flag);
 void	ft_lstadd_back(t_lst **lst, t_lst *new);
+void	ft_check_spase(int *j, char *mid, t_lst *o);
+void	ft_check_flag2(int j, int flag, int i, t_lst *o);
 
 #endif
