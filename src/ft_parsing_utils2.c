@@ -6,36 +6,11 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 10:05:03 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/14 19:04:50 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/16 16:44:58 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_check_lite(t_lst *o, int flag)
-{
-	if ((g_o.count > 1 && ft_strlen(o->str) == 1 && !o->flag_meta)
-		|| (ft_strlen(o->str) == 2 && (o->str[1] == '<'
-				|| o->str[1] == '>') && !o->flag_meta))
-		return (1);
-	return (0);
-}
-
-void	ft_check_flag2(int j, int flag, int i, t_lst *o)
-{
-	if (flag == 3)
-		o->str = ft_substr_mod(o->str, j + 2, i - j - 2, 1);
-	else
-		o->str = ft_substr_mod(o->str, j + 1, i - j - 1, 1);
-}
-
-void	ft_check_flag(int *i, int *j, int flag)
-{
-	if (flag == 3)
-		*i = *j + 2;
-	else
-		*i = *j + 1;
-}
 
 char	*ft_find_env(char *s)
 {
@@ -77,4 +52,32 @@ void	ft_check_parse(t_lst *o)
 				o->str = ft_parse_dollar(o->str, &i);
 	}
 	o->flag_meta = 0;
+}
+
+int	ft_open_file(t_lst *o, int flag)
+{
+	if (flag == 1)
+	{
+		close(g_o.fd_in);
+		g_o.fd_in = open(o->str, O_RDONLY);
+		if (g_o.fd_in == -1)
+			return (1);
+	}
+	else if (flag == 2)
+	{
+		close(g_o.fd_in);
+		g_o.fd_out = open(o->str, O_WRONLY | O_TRUNC | O_CREAT, 0777);
+		if (g_o.fd_out == -1)
+			return (1);
+	}
+	else if (flag == 3)
+	{
+		close(g_o.fd_in);
+		g_o.fd_out = open(o->str, O_WRONLY | O_APPEND | O_CREAT, 0777);
+		if (g_o.fd_out == -1)
+			return (1);
+	}
+	free(o->str);
+	o->str = NULL;
+	return (0);
 }

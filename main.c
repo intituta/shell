@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:48:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/14 11:41:57 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/16 10:43:44 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,24 +56,38 @@ void	ft_init_struct(int flag)
 {
 	if (flag)
 		g_o.env = NULL;
-	g_o.args = NULL;
 	g_o.input = NULL;
-	g_o.split = NULL;
 	g_o.fd_in = -2;
-	g_o.ex_code = 0;
 	g_o.fd_out = -2;
 	g_o.pipe[0] = -2;
 	g_o.pipe[1] = -2;
+	g_o.count = 0;
+	g_o.count_final = 0;
+	g_o.split = NULL;
+	g_o.final_args = NULL;
+	g_o.ex_code = 0;
+	g_o.final = NULL;
+	g_o.args = NULL;
 }
 
 void	ft_printf(void)
 {
+	int		i;
 	t_lst	*tmp;
 
 	tmp = g_o.args;
 	while (tmp)
 	{
 		printf("str = %s, meta_flag = %d\n", tmp->str, tmp->flag_meta);
+		tmp = tmp->next;
+	}
+	tmp = g_o.final;
+	while (tmp)
+	{
+		i = -1;
+		while (tmp->execve[++i])
+			printf("str-execve = %s\n", tmp->execve[i]);
+		printf("----\n");
 		tmp = tmp->next;
 	}
 }
@@ -98,6 +112,8 @@ int	main(int ac, char **av, char **env)
 		}
 		else
 			ft_preparsing();
+		if (g_o.input)
+			free(g_o.input);
 		ft_printf();
 		ft_free_all();
 	}

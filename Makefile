@@ -6,7 +6,7 @@
 #    By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/06 10:56:01 by kferterb          #+#    #+#              #
-#    Updated: 2022/04/14 19:05:27 by kferterb         ###   ########.fr        #
+#    Updated: 2022/04/16 18:05:16 by kferterb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,13 +34,13 @@ SRC						:=	main.c \
 							ft_gnl_mod.c \
 							ft_signals.c \
 							ft_parsing.c \
+							ft_parsing2.c \
 							ft_split_mod.c \
 							ft_substr_mod.c \
 							ft_list_utils.c \
 							ft_strcmp_mod.c \
 							ft_strjoin_mod.c \
 							ft_parsing_utils.c \
-							ft_parsing_utils3.c \
 							ft_parsing_utils2.c \
 
 OBJ						:=	$(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.c=.o)))

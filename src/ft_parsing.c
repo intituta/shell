@@ -6,85 +6,44 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 13:40:01 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/14 19:02:39 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/16 19:51:35 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_parse_redirect(t_lst *o, int *j, int flag)
+char	*ft_parse_redirect(t_lst *o, int *j, int flag, int flag2)
 {
-	int		i;
-	char	*start;
-	char	*mid;
-	char	*end;
-
-	if (ft_check_lite(o, flag))
-		return (ft_parse_lite(o, 0, flag));
-	ft_check_flag(&i, j, flag);
-	start = ft_substr(o->str, 0, *j);
-	mid = ft_substr(o->str, *j, ft_strlen(o->str));
-	ft_check_spase(j, mid, o);
-	ft_check_meta(o, &i);
-	end = ft_substr(o->str, i, ft_strlen(o->str));
-	if (!end)
-		return (free(start), o->str);
-	ft_check_flag2(*j, flag, i, o);
-	if (o->str[0] == '|' || o->str[0] == '<' || o->str[0] == '>' || !o->str[0])
-		return (printf("error\n"), free(o->str), free(start), free(end), NULL);
-	ft_check_parse(o);
-	if (ft_open_file(o, flag))
-		return (printf("error\n"), free(o->str), free(start), free(end), NULL);
-	*j = -1;
-	return (free(o->str), ft_sjoin(start, end, 1, 1));
+	if ((g_o.count > 1 && ft_strlen(o->str) == 1)
+		|| (g_o.count > 1 && ft_strlen(o->str) == 2 && (o->str[1] == '<'
+				|| o->str[1] == '>')))
+		return (ft_parse_lite(o, flag, flag2));
+	return (write(2, "syntax error\n", 13), free(o->str), NULL);
 }
 
 char	*ft_parse_lite(t_lst *o, int flag, int flag2)
 {
 	int		i;
-	char	*end;
-	char	*tmp;
 
 	i = 0;
-	if (flag && (o->next->str[0] == '|' || o->next->str[0] == '<'
-			|| o->next->str[0] == '>' || !o->next->str[0]))
+	if (!o->next)
 		return (write(2, "syntax error\n", 13), free(o->str), NULL);
-	else if (o->next->str[0] == '|' || !o->next->str[0])
+	if (o->next->str[0] == '|' || o->next->str[0] == '<'
+		|| o->next->str[0] == '>')
 		return (write(2, "syntax error\n", 13), free(o->str), NULL);
-	ft_check_meta(o->next, &i);
-	end = ft_substr(o->next->str, i, ft_strlen(o->next->str));
-	o->next->str = ft_substr_mod(o->next->str, 0, i, 1);
 	ft_check_parse(o->next);
-	if (flag)
+	if (flag == 1)
 		ft_heredoc(o->next->str);
+	else if (flag == 2)
+	{
+		o->pipe_flag = 1;
+		ft_put_list(0);
+		ft_put_final_args();
+		o->pipe_flag = 0;
+	}
 	else if (ft_open_file(o->next, flag2))
-		return (write(2, "error open file\n", 13), free(o->str), NULL);
-	tmp = o->next->str;
-	o->next->str = ft_substr_mod(end, 0, ft_strlen(end), 1);
-	return (free(tmp), free(o->str), NULL);
-}
-
-char	*ft_parse_heredoc(t_lst *o, int *j)
-{
-	int		i;
-	char	*end;
-	char	*start;
-
-	if (g_o.count > 1 && ft_strlen(o->str) == 2 && !o->flag_meta)
-		return (ft_parse_lite(o, 1, 0));
-	i = *j + 2;
-	start = ft_substr(o->str, 0, *j);
-	ft_check_meta(o, &i);
-	end = ft_substr(o->str, i, ft_strlen(o->str));
-	o->str = ft_substr_mod(o->str, *j + 2, i - *j - 2, 1);
-	if (o->str[0] == '|' || o->str[0] == '<' || o->str[0] == '>' || !o->str[0])
-		return (write(2, "syntax error\n", 13),
-			free(o->str), free(start), free(end), NULL);
-	ft_check_parse(o);
-	ft_heredoc(o->str);
-	end = ft_sjoin(start, end, 1, 1);
-	*j = -1;
-	return (free(o->str), end);
+		return (write(2, "error open\n", 13), free(o->str), NULL);
+	return (free(o->str), NULL);
 }
 
 char	*ft_parse_dollar(char *str, int *index)
