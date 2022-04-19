@@ -6,40 +6,11 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 10:50:12 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/19 13:07:35 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/19 15:06:27 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	ft_free_all(void)
-{
-	int		i;
-	t_lst	*tmp;
-
-	i = -1;
-	tmp = g_o.args;
-	while (g_o.split && g_o.split[++i])
-		free(g_o.split[i]);
-	free(g_o.split);
-	while (tmp)
-	{
-		free(tmp->str);
-		free(tmp);
-		tmp = tmp->next;
-	}
-	tmp = g_o.final;
-	while (tmp)
-	{
-		i = -1;
-		while (tmp->execve[++i])
-			free(tmp->execve[i]);
-		free(tmp->execve);
-		free(tmp);
-		tmp = tmp->next;
-	}
-	ft_init_struct(0);
-}
 
 t_lst	*ft_lstlast(t_lst *lst)
 {

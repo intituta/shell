@@ -6,11 +6,46 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 12:38:13 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/14 09:09:19 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/19 15:21:07 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_free_struct(t_lst *s)
+{
+	int		i;
+	t_lst	*tmp;
+
+	i = -1;
+	tmp = s;
+	while (tmp)
+	{
+		i = -1;
+		while (tmp->execve && tmp->execve[++i])
+			free(tmp->execve[i]);
+		free(tmp->execve);
+		free(tmp->str);
+		tmp->str = NULL;
+		free(tmp);
+		tmp = tmp->next;
+	}
+}
+
+void	ft_free_all(void)
+{
+	int		i;
+
+	i = -1;
+	if (g_o.input)
+		free(g_o.input);
+	while (g_o.split && g_o.split[++i])
+		free(g_o.split[i]);
+	free(g_o.split);
+	ft_free_struct(g_o.args);
+	ft_free_struct(g_o.final);
+	ft_init_struct(0);
+}
 
 void	ft_handler(int sig)
 {

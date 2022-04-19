@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 13:40:01 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/19 14:07:48 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/19 14:59:17 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_parse_redirect(t_lst *o, int *j, int flag, int flag2)
 		|| (g_o.count > 1 && ft_strlen(o->str) == 2 && (o->str[1] == '<'
 				|| o->str[1] == '>')))
 		return (ft_parse_lite(o, flag, flag2));
-	return (ft_free_all(), NULL);
+	return (write(2, "syntax error\n", 13), ft_free_all(), NULL);
 }
 
 char	*ft_parse_lite(t_lst *o, int flag, int flag2)

@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:48:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/19 13:21:16 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/19 15:00:24 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,6 @@ int	main(int ac, char **av, char **env)
 		}
 		else
 			ft_preparsing();
-		if (g_o.input)
-			free(g_o.input);
 		ft_printf();
 		ft_free_all();
 	}
