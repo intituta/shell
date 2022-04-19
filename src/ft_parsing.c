@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 13:40:01 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/16 19:51:35 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/19 13:11:34 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_parse_redirect(t_lst *o, int *j, int flag, int flag2)
 		|| (g_o.count > 1 && ft_strlen(o->str) == 2 && (o->str[1] == '<'
 				|| o->str[1] == '>')))
 		return (ft_parse_lite(o, flag, flag2));
-	return (write(2, "syntax error\n", 13), free(o->str), NULL);
+	return (ft_free_all(), NULL);
 }
 
 char	*ft_parse_lite(t_lst *o, int flag, int flag2)
@@ -26,14 +26,12 @@ char	*ft_parse_lite(t_lst *o, int flag, int flag2)
 	int		i;
 
 	i = 0;
-	if (!o->next)
-		return (write(2, "syntax error\n", 13), free(o->str), NULL);
 	if (o->next->str[0] == '|' || o->next->str[0] == '<'
 		|| o->next->str[0] == '>')
-		return (write(2, "syntax error\n", 13), free(o->str), NULL);
+		return (write(2, "syntax error\n", 13), ft_free_all(), NULL);
 	ft_check_parse(o->next);
 	if (flag == 1)
-		ft_heredoc(o->next->str);
+		ft_heredoc(o->next);
 	else if (flag == 2)
 	{
 		o->pipe_flag = 1;
@@ -42,7 +40,7 @@ char	*ft_parse_lite(t_lst *o, int flag, int flag2)
 		o->pipe_flag = 0;
 	}
 	else if (ft_open_file(o->next, flag2))
-		return (write(2, "error open\n", 13), free(o->str), NULL);
+		return (write(2, "error open\n", 13), ft_free_all(), NULL);
 	return (free(o->str), NULL);
 }
 

@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:48:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/16 10:43:44 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/19 12:56:08 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	ft_init_struct(int flag)
 	g_o.pipe[0] = -2;
 	g_o.pipe[1] = -2;
 	g_o.count = 0;
+	g_o.error = 0;
 	g_o.count_final = 0;
 	g_o.split = NULL;
 	g_o.final_args = NULL;

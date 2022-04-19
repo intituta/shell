@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 10:05:03 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/16 16:44:58 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/19 12:54:16 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,40 @@ int	ft_open_file(t_lst *o, int flag)
 	free(o->str);
 	o->str = NULL;
 	return (0);
+}
+
+void	ft_concatenator(t_lst *tmp, t_lst *tmp2)
+{
+	g_o.count++;
+	tmp2->next = tmp->next;
+	tmp->next = tmp2;
+}
+
+void	ft_check_list(void)
+{
+	int		i;
+	t_lst	*tmp;
+
+	tmp = g_o.args;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->str, ">>") || !ft_strcmp(tmp->str, "<<")
+			|| !ft_strcmp(tmp->str, ">") || !ft_strcmp(tmp->str, "<")
+			|| !ft_strcmp(tmp->str, "|"))
+		{
+			tmp = tmp->next;
+			continue ;
+		}
+		i = -1;
+		while (tmp->str[++i])
+		{
+			if (tmp->str[i] == '>' || tmp->str[i] == '<' || tmp->str[i] == '|')
+				ft_put_redirect_to_list(tmp, &i);
+			if (tmp->str[i] == '"')
+				ft_put_quotes_to_list(tmp, &i, '"');
+			if (tmp->str[i] == '\'')
+				ft_put_quotes_to_list(tmp, &i, '\'');
+		}
+		tmp = tmp->next;
+	}
 }

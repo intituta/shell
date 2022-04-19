@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:49:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/16 16:43:42 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/19 12:54:35 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_o
 	char	*input;
 	char	**split;
 	char	**final_args;
+	int		error;
 	int		ex_code;
 	int		count;
 	int		count_final;
@@ -79,14 +80,19 @@ char	*ft_parse_lite(t_lst *o, int flag, int flag2);
 char	*ft_substr_mod(char *s, int start, int len, int flag);
 char	*ft_parse_redirect(t_lst *o, int *j, int flag, int flag2);
 
+void	ft_loop(void);
 void	ft_parsing(void);
 void	ft_signals(void);
 void	ft_free_all(void);
+void	ft_check_list(void);
 void	ft_preparsing(void);
+void	ft_heredoc(t_lst *o);
 void	ft_put_list(int flag);
 void	ft_put_final_args(void);
-void	ft_heredoc(char *limit);
 void	ft_init_struct(int flag);
 void	ft_check_parse(t_lst *o);
+void	ft_concatenator(t_lst *tmp, t_lst *tmp2);
+void	ft_put_redirect_to_list(t_lst *tmp, int *i);
+void	ft_put_quotes_to_list(t_lst *tmp, int *i, char c);
 
 #endif
