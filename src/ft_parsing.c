@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 13:40:01 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/19 13:11:34 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/19 14:07:48 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*ft_parse_dollar(char *str, int *index)
 	while (ft_isalpha(str[i]) || str[i] == '?')
 		i++;
 	mid = ft_substr(str, *index + 1, i - *index - 1);
-	end = ft_substr_mod(str, i, ft_strlen(str), 1);
+	end = ft_substr_m(str, i, ft_strlen(str), 1);
 	if (mid[0] == '?')
 		mid = ft_itoa(g_o.ex_code);
 	else
@@ -80,7 +80,7 @@ char	*ft_parse_quotes(t_lst *o, int *j, char c)
 	k = *j;
 	start = ft_substr(o->str, 0, k);
 	ft_check_quotes(o->str, &k, c);
-	mid = ft_substr_mod(o->str, *j + 1, k - *j - 1, 1);
+	mid = ft_substr_m(o->str, *j + 1, k - *j - 1, 1);
 	if (!ft_strcmp(mid, "<<") || !ft_strcmp(mid, "<")
 		|| !ft_strcmp(mid, ">") || !ft_strcmp(mid, "|"))
 		o->flag_meta = 1;

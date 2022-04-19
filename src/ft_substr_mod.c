@@ -6,13 +6,13 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 16:55:23 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/12 17:28:50 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/19 14:05:57 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_substr_mod(char *s, int start, int len, int flag)
+char	*ft_substr_m(char *s, int start, int len, int flag)
 {
 	int		i;
 	int		j;

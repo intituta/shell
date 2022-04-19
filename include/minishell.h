@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:49:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/19 12:54:35 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/19 14:06:10 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ typedef struct s_o
 	char	*input;
 	char	**split;
 	char	**final_args;
-	int		error;
 	int		ex_code;
 	int		count;
 	int		count_final;
@@ -77,7 +76,7 @@ char	*ft_redirects(t_lst *o, int *j);
 char	*ft_parse_dollar(char *str, int *index);
 char	*ft_parse_quotes(t_lst *o, int *j, char c);
 char	*ft_parse_lite(t_lst *o, int flag, int flag2);
-char	*ft_substr_mod(char *s, int start, int len, int flag);
+char	*ft_substr_m(char *s, int start, int len, int flag);
 char	*ft_parse_redirect(t_lst *o, int *j, int flag, int flag2);
 
 void	ft_loop(void);
