@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:49:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/21 10:09:42 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/21 10:35:57 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,16 +75,14 @@ int		ft_check_quotes(char *s, int *index, char c);
 char	**ft_conv_env(void);
 char	*ft_find_env(char *s);
 char	*find_dollar(char *str);
-char	*ft_redirects(t_lst *o, int *j);
+char	*ft_find_path(char **env, t_lst *tmp);
 char	*ft_parse_dollar(char *str, int *index);
 char	*ft_parse_quotes(t_lst *o, int *j, char c);
 char	*ft_parse_lite(t_lst *o, int flag, int flag2);
 char	*ft_substr_m(char *s, int start, int len, int flag);
 char	*ft_parse_redirect(t_lst *o, int flag, int flag2);
 
-void	ft_parsing(void);
 void	ft_signals(void);
-void	ft_multiexe(void);
 void	ft_free_all(void);
 void	ft_check_list(void);
 void	ft_preparsing(void);
@@ -94,8 +92,6 @@ void	ft_put_final_args(void);
 void	ft_init_struct(int flag);
 void	ft_check_parse(t_lst *o);
 void	ft_close_multipipe(int **multipipe);
-char	*ft_find_path(char **env, t_lst *tmp);
-void	ft_concatenator(t_lst *tmp, t_lst *tmp2);
 void	ft_dup(t_lst *tmp, int i, int **multipipe);
 void	ft_put_redirect_to_list(t_lst *tmp, int *i);
 
