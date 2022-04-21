@@ -6,13 +6,13 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 18:05:09 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/16 18:15:15 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/19 18:24:16 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_count_word(char *s, char c)
+int	ft_count_word_mod(char *s, char c)
 {
 	int	i;
 	int	count;
@@ -33,7 +33,7 @@ int	ft_count_word(char *s, char c)
 	return (count);
 }
 
-void	*ft_mem_free(char **str, int count)
+void	*ft_mem_free_mod(char **str, int count)
 {
 	int	i;
 
@@ -44,7 +44,7 @@ void	*ft_mem_free(char **str, int count)
 	return (NULL);
 }
 
-int	ft_len_word(char *s, char c)
+int	ft_len_word_mod(char *s, char c)
 {
 	int	len;
 	int	flag;
@@ -70,7 +70,7 @@ int	ft_len_word(char *s, char c)
 	return (len);
 }
 
-char	**ft_fill_word(char *s, char c, int count, char **str)
+char	**ft_fill_word_mod(char *s, char c, int count, char **str)
 {
 	int	i;
 	int	j;
@@ -81,10 +81,10 @@ char	**ft_fill_word(char *s, char c, int count, char **str)
 	{
 		while (*s == c)
 			s++;
-		len = ft_len_word(s, c);
+		len = ft_len_word_mod(s, c);
 		str[i] = malloc(sizeof(char) * (len + 1));
 		if (!str[i])
-			return (ft_mem_free(str, count));
+			return (ft_mem_free_mod(str, count));
 		j = -1;
 		while (++j < len)
 		{
@@ -104,13 +104,13 @@ char	**ft_split_mod(char *s, char c)
 
 	if (!s)
 		return (NULL);
-	count = ft_count_word(s, c);
+	count = ft_count_word_mod(s, c);
 	if (count == -1)
 		return (NULL);
 	g_o.count = count;
 	str = (char **)malloc(sizeof(char *) * (count + 1));
 	if (!str)
 		return (NULL);
-	str = ft_fill_word(s, c, count, str);
+	str = ft_fill_word_mod(s, c, count, str);
 	return (str);
 }

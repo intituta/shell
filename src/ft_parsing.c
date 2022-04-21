@@ -6,13 +6,13 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 13:40:01 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/19 14:59:17 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/20 13:37:01 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_parse_redirect(t_lst *o, int *j, int flag, int flag2)
+char	*ft_parse_redirect(t_lst *o, int flag, int flag2)
 {
 	if ((g_o.count > 1 && ft_strlen(o->str) == 1)
 		|| (g_o.count > 1 && ft_strlen(o->str) == 2 && (o->str[1] == '<'
@@ -26,6 +26,8 @@ char	*ft_parse_lite(t_lst *o, int flag, int flag2)
 	int		i;
 
 	i = 0;
+	if (!o->next)
+		return (write(2, "syntax error\n", 13), ft_free_all(), NULL);
 	if (o->next->str[0] == '|' || o->next->str[0] == '<'
 		|| o->next->str[0] == '>')
 		return (write(2, "syntax error\n", 13), ft_free_all(), NULL);

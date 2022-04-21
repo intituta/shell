@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 13:12:09 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/19 15:11:40 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/20 16:15:16 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ int	ft_check_quotes(char *s, int *index, char c)
 char	*ft_redirects(t_lst *o, int *j)
 {
 	if (o->str[*j] == '<' && o->str[*j + 1] == '<')
-		o->str = ft_parse_redirect(o, j, 1, 0);
+		o->str = ft_parse_redirect(o, 1, 0);
 	else if (o->str[*j] == '<')
-		o->str = ft_parse_redirect(o, j, 0, 1);
+		o->str = ft_parse_redirect(o, 0, 1);
 	else if (o->str[*j] == '>' && o->str[*j + 1] == '>')
-		o->str = ft_parse_redirect(o, j, 0, 3);
+		o->str = ft_parse_redirect(o, 0, 3);
 	else if (o->str[*j] == '>')
-		o->str = ft_parse_redirect(o, j, 0, 2);
+		o->str = ft_parse_redirect(o, 0, 2);
 	return (o->str);
 }
 
@@ -67,7 +67,7 @@ void	ft_parsing(void)
 				&& (tmp->str[j] == '<' || tmp->str[j] == '>'))
 				tmp->str = ft_redirects(tmp, &j);
 			else if (!tmp->flag_meta && tmp->str[j] == '|')
-				tmp->str = ft_parse_redirect(tmp, &j, 2, 0);
+				tmp->str = ft_parse_redirect(tmp, 2, 0);
 		}
 		tmp = tmp->next;
 	}

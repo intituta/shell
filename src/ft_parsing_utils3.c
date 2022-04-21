@@ -6,40 +6,11 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 13:19:02 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/19 14:46:01 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/20 16:23:58 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	ft_put_quotes_to_list(t_lst *tmp, int *i, char c)
-{
-	char	*start;
-	t_lst	*tmp2;
-
-	start = ft_substr(tmp->str, 0, *i);
-	if (ft_strlen(start) > 0)
-	{
-		if (tmp->str[*i + 1] == '\0' || tmp->str[*i + 1] == '"'
-			|| tmp->str[*i + 1] == '\'' || tmp->str[*i - 1] == '\0'
-			|| tmp->str[*i - 1] == '"' || tmp->str[*i - 1] == '\'')
-			return ;
-		tmp2 = ft_lstnew(ft_substr_m(tmp->str, *i + 1, ft_strlen(tmp->str), 1));
-		tmp->str = ft_substr_m(start, 0, ft_strlen(start), 1);
-	}
-	else
-	{
-		if (!ft_check_quotes(tmp->str, i, c))
-			return ;
-		if (tmp->str[*i + 1] == '\0'
-			|| tmp->str[*i + 1] == '"' || tmp->str[*i + 1] == '\'')
-			return ;
-		free(start);
-		tmp2 = ft_lstnew(ft_substr(tmp->str, *i + 1, ft_strlen(tmp->str)));
-		tmp->str = ft_substr_m(tmp->str, 0, *i + 1, 1);
-	}
-	ft_concatenator(tmp, tmp2);
-}
 
 void	ft_put_redirect_to_list(t_lst *tmp, int *i)
 {
@@ -49,7 +20,7 @@ void	ft_put_redirect_to_list(t_lst *tmp, int *i)
 	start = ft_substr(tmp->str, 0, *i);
 	if (ft_strlen(start) > 0)
 	{
-		tmp2 = ft_lstnew(ft_substr_m(tmp->str, *i, ft_strlen(tmp->str), 1));
+		tmp2 = ft_lstnew(ft_substr_m(tmp->str, (*i)++, ft_strlen(tmp->str), 1));
 		tmp->str = ft_substr_m(start, 0, ft_strlen(start), 1);
 	}
 	else

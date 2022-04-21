@@ -6,11 +6,26 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 10:50:12 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/19 15:06:27 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/20 12:43:00 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ft_lstsize(t_lst *lst)
+{
+	int		len;
+
+	if (!lst)
+		return (0);
+	len = 0;
+	while (lst)
+	{
+		len++;
+		lst = lst -> next;
+	}
+	return (len);
+}
 
 t_lst	*ft_lstlast(t_lst *lst)
 {
@@ -63,6 +78,8 @@ t_lst	*ft_put_lst_new(void)
 	head -> pipe_flag = 0;
 	head -> fd_in = g_o.fd_in;
 	head -> fd_out = g_o.fd_out;
+	g_o.fd_in = -2;
+	g_o.fd_out = -2;
 	head -> execve = malloc(sizeof(char *) * g_o.count_final + 1);
 	while (g_o.final_args[++i])
 		head->execve[i] = ft_strdup(g_o.final_args[i]);

@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:48:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/19 15:00:24 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/20 16:15:23 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,11 @@ void	ft_printf(void)
 	{
 		i = -1;
 		while (tmp->execve[++i])
+		{
 			printf("str-execve = %s\n", tmp->execve[i]);
+		}
+		printf("fd_in = %d\n", tmp->fd_in);
+		printf("fd_out = %d\n", tmp->fd_out);
 		printf("----\n");
 		tmp = tmp->next;
 	}
@@ -111,8 +115,11 @@ int	main(int ac, char **av, char **env)
 			continue ;
 		}
 		else
+		{
 			ft_preparsing();
-		ft_printf();
+			ft_execve();
+		}
+		//ft_printf();
 		ft_free_all();
 	}
 }
