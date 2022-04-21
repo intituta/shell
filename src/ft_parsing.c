@@ -6,11 +6,11 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 13:40:01 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/20 13:37:01 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/21 12:12:21 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 char	*ft_parse_redirect(t_lst *o, int flag, int flag2)
 {

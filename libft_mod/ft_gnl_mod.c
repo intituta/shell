@@ -6,11 +6,11 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/10 10:24:22 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/21 10:21:10 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/21 12:12:35 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 void	ft_heredoc(t_lst *o)
 {

@@ -6,74 +6,44 @@
 #    By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/06 10:56:01 by kferterb          #+#    #+#              #
-#    Updated: 2022/04/21 10:26:43 by kferterb         ###   ########.fr        #
+#    Updated: 2022/04/21 12:13:23 by kferterb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-.PHONY : all clean fclean re check_obj_dir
+NAME		=	minishell
 
-COL_0					:=	\033[38;2;0;145;15
-COL_1					:=	\033[38;2;46;84;240
-COL_2					:=	\033[37
-UNSET					:=	\033[m
+CC			=	gcc
+CFLAGS		=	-Wall -Werror -Wextra
+HEADER		=	include/minishell.h
+RM			=	rm -f
+LIBS		=	-L libft -lft
+READLINE	=	-L /Users/$(USER)/.brew/opt/readline/lib -lreadline
 
-NAME					:=	minishell
+SRC_DIR		=	src/
+MOD_DIR		=	libft_mod/
 
-CC						:=	clang
-OBJ_DIR					:=	obj
-FLAGS					:=	-Wall -Wextra -Werror
-INCLUDE					:=	include
+SRC			=	$(addprefix $(SRC_DIR), ft_multipipe.c ft_parsing_utils.c ft_parsing_utils2.c ft_parsing_utils3.c ft_parsing.c ft_signals.c main.c)\
+				$(addprefix $(MOD_DIR), ft_gnl_mod.c ft_list_utils.c ft_split_mod.c ft_strcmp_mod.c ft_strjoin_mod.c ft_substr_mod.c)
 
-LIBFT_DIR				:=	libft
-LIBS					:=	$(LIBFT_DIR)/libft.a \
-							-L /Users/$(USER)/.brew/opt/readline/lib -lreadline
+OBJS		=	$(SRC:%.c=%.o)
 
-VPATH					:=	src \
+.PHONY		:	all clean fclean re
 
-SRC						:=	main.c \
-							ft_gnl_mod.c \
-							ft_signals.c \
-							ft_parsing.c \
-							ft_multipipe.c \
-							ft_split_mod.c \
-							ft_substr_mod.c \
-							ft_list_utils.c \
-							ft_strcmp_mod.c \
-							ft_strjoin_mod.c \
-							ft_parsing_utils.c \
-							ft_parsing_utils2.c \
-							ft_parsing_utils3.c \
+all			:	$(NAME)
 
-OBJ						:=	$(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.c=.o)))
-DEP						:=	$(wildcard $(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.c=.d))))
+$(NAME)		:	$(OBJS)
+				@make -C libft
+				@$(CC) $(LIBS) $(READLINE) $(CFLAGS) $(OBJS) -o $(NAME)
 
-all						:	other_libs_rule $(OBJ_DIR) $(NAME)
+%.o			:	%.c $(HEADER)
+				@$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME)					:	$(OBJ)
-							@$(CC) $(OBJ) $(LIBS) -o $@
-							@echo "$(COL_0);1m"
-							@echo "\t\tCOMMAND + V"
-							@echo "$(UNSET)"
-							@printf "$(shell pwd)/$@" | pbcopy
+clean		:
+				@make -C libft clean
+				$(RM) $(OBJS)
 
-$(OBJ_DIR)/%.o			:	%.c
-							$(CC) $(FLAGS) -I $(INCLUDE) -MD -c $< -o $@
+fclean		:	clean
+				@make -C libft fclean
+				$(RM) $(NAME)
 
-$(OBJ_DIR)				:
-							@mkdir -p $(OBJ_DIR)/
-
-other_libs_rule:	$(LIBFT_DIR)
-							@make -C $<
-
-include $(DEP)
-
-clean					:
-							@make clean -C $(LIBFT_DIR)
-							@rm -rf $(OBJ_DIR)
-							@echo "$(COL_1);3;1mobject\033[23;22m files for \033[3;1m$(NAME)\033[23;22m have been deleted\033[0m"
-
-fclean					:	clean
-							@rm -f $(NAME)
-							@echo "$(COL_1);3;1m$(NAME)\033[23;22m have been deleted\033[0m"
-
-re						:	fclean all
+re			:	fclean all

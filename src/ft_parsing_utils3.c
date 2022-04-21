@@ -6,11 +6,11 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 13:19:02 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/21 10:19:16 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/21 12:12:15 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 void	ft_concatenator(t_lst *tmp, t_lst *tmp2)
 {

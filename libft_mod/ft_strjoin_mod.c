@@ -6,11 +6,11 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 09:59:57 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/12 10:16:43 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/21 12:12:51 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 char	*ft_sjoin(char *s1, char *s2, int flag, int flag2)
 {

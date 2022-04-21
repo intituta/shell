@@ -6,11 +6,11 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 10:50:12 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/20 12:43:00 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/21 12:12:39 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 int	ft_lstsize(t_lst *lst)
 {

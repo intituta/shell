@@ -6,11 +6,11 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:48:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/21 10:28:06 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/21 12:42:12 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 void	ft_shlvl(void)
 {
@@ -62,12 +62,11 @@ void	ft_init_struct(int flag)
 	g_o.pipe[0] = -2;
 	g_o.pipe[1] = -2;
 	g_o.count = 0;
-	g_o.count_final = 0;
-	g_o.split = NULL;
-	g_o.final_args = NULL;
-	g_o.ex_code = 0;
-	g_o.final = NULL;
 	g_o.args = NULL;
+	g_o.final = NULL;
+	g_o.split = NULL;
+	g_o.count_final = 0;
+	g_o.final_args = NULL;
 }
 
 void	ft_multiexe(void)
@@ -93,9 +92,7 @@ void	ft_multiexe(void)
 		}
 		tmp = tmp->next;
 	}
-	i = -1;
-	while (++i < g_o.count_final - 1)
-		waitpid(pid[i], 0, 0);
+	waitpid(pid[-1], 0, 0);
 	ft_close_multipipe(pipes);
 }
 

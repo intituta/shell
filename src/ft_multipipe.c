@@ -6,11 +6,11 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 10:17:18 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/21 10:06:35 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/21 12:33:13 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 char	*ft_find_path(char **env, t_lst *tmp)
 {
@@ -29,7 +29,7 @@ char	*ft_find_path(char **env, t_lst *tmp)
 	write(2, tmp->execve[0], ft_strlen(tmp->execve[0]));
 	write(2, ": cmd not found\n", 16);
 	ft_free_all();
-	exit(0);
+	exit(127);
 }
 
 char	**ft_conv_env(void)

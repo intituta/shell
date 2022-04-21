@@ -6,11 +6,11 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/10 10:26:40 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/10 10:26:55 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/21 12:12:48 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 int	ft_strcmp(char *s1, char *s2)
 {

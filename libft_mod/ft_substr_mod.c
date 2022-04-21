@@ -6,11 +6,11 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 16:55:23 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/19 14:05:57 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/21 12:12:54 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 char	*ft_substr_m(char *s, int start, int len, int flag)
 {
