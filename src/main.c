@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:48:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/21 12:42:12 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/21 12:55:10 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	ft_multiexe(void)
 		{
 			env = ft_conv_env();
 			ft_dup(tmp, i, pipes);
+			ft_interceptor(tmp);
 			ft_find_path(env, tmp);
 		}
 		tmp = tmp->next;
