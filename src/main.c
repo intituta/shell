@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:48:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/20 16:15:23 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/21 10:28:06 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,30 +70,33 @@ void	ft_init_struct(int flag)
 	g_o.args = NULL;
 }
 
-void	ft_printf(void)
+void	ft_multiexe(void)
 {
 	int		i;
+	int		*pid;
+	int		**pipes;
+	char	**env;
 	t_lst	*tmp;
 
-	tmp = g_o.args;
-	while (tmp)
-	{
-		printf("str = %s, meta_flag = %d\n", tmp->str, tmp->flag_meta);
-		tmp = tmp->next;
-	}
+	i = -1;
 	tmp = g_o.final;
+	pid = malloc(sizeof(int *) * g_o.count_final);
+	pipes = ft_create_pipes();
 	while (tmp)
 	{
-		i = -1;
-		while (tmp->execve[++i])
+		pid[++i] = fork();
+		if (!pid[i])
 		{
-			printf("str-execve = %s\n", tmp->execve[i]);
+			env = ft_conv_env();
+			ft_dup(tmp, i, pipes);
+			ft_find_path(env, tmp);
 		}
-		printf("fd_in = %d\n", tmp->fd_in);
-		printf("fd_out = %d\n", tmp->fd_out);
-		printf("----\n");
 		tmp = tmp->next;
 	}
+	i = -1;
+	while (++i < g_o.count_final - 1)
+		waitpid(pid[i], 0, 0);
+	ft_close_multipipe(pipes);
 }
 
 int	main(int ac, char **av, char **env)
@@ -117,9 +120,9 @@ int	main(int ac, char **av, char **env)
 		else
 		{
 			ft_preparsing();
-			ft_execve();
+			g_o.count_final = ft_lstsize(g_o.final);
+			ft_multiexe();
 		}
-		//ft_printf();
 		ft_free_all();
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 10:05:03 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/20 16:03:06 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/21 10:19:10 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,13 @@ int	ft_open_file(t_lst *o, int flag)
 	return (0);
 }
 
-void	ft_concatenator(t_lst *tmp, t_lst *tmp2)
+int	ft_check_redirects(t_lst *tmp)
 {
-	g_o.count++;
-	tmp2->next = tmp->next;
-	tmp->next = tmp2;
+	if (!ft_strcmp(tmp->str, ">>") || !ft_strcmp(tmp->str, "<<")
+		|| !ft_strcmp(tmp->str, ">") || !ft_strcmp(tmp->str, "<")
+		|| !ft_strcmp(tmp->str, "|"))
+		return (1);
+	return (0);
 }
 
 void	ft_check_list(void)
@@ -94,9 +96,7 @@ void	ft_check_list(void)
 	tmp = g_o.args;
 	while (tmp)
 	{
-		if (!ft_strcmp(tmp->str, ">>") || !ft_strcmp(tmp->str, "<<")
-			|| !ft_strcmp(tmp->str, ">") || !ft_strcmp(tmp->str, "<")
-			|| !ft_strcmp(tmp->str, "|"))
+		if (ft_check_redirects(tmp))
 		{
 			tmp = tmp->next;
 			continue ;

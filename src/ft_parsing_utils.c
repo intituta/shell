@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 13:12:09 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/20 16:15:16 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/21 10:28:28 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,6 @@ void	ft_preparsing(void)
 			ft_lstadd_back(&g_o.args, ft_lstnew(ft_strdup(g_o.split[i])));
 	}
 	ft_check_list();
-	//while (g_o.args)
-	//{
-	//	printf("%s\n", g_o.args->str);
-	//	g_o.args = g_o.args->next;
-	//}
 	ft_parsing();
 	ft_put_list(1);
 	ft_put_final_args();

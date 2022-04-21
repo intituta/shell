@@ -6,7 +6,7 @@
 #    By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/06 10:56:01 by kferterb          #+#    #+#              #
-#    Updated: 2022/04/20 13:36:38 by kferterb         ###   ########.fr        #
+#    Updated: 2022/04/21 10:26:43 by kferterb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,6 @@ LIBS					:=	$(LIBFT_DIR)/libft.a \
 VPATH					:=	src \
 
 SRC						:=	main.c \
-							ft_execve.c \
 							ft_gnl_mod.c \
 							ft_signals.c \
 							ft_parsing.c \
