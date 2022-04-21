@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 12:53:52 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/21 13:21:18 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/21 13:57:01 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,4 @@ void	ft_interceptor(t_lst *tmp)
 		printf("exit OK\n");
 		exit(0);
 	}
-	else
-		return ;
 }

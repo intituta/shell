@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 13:40:01 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/21 12:12:21 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/21 17:52:20 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ char	*ft_parse_lite(t_lst *o, int flag, int flag2)
 		o->pipe_flag = 0;
 	}
 	else if (ft_open_file(o->next, flag2))
+	{
+		g_o.ex_code = 1;
 		return (write(2, "error open\n", 13), ft_free_all(), NULL);
+	}
 	return (free(o->str), NULL);
 }
 

@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:48:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/21 12:55:10 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/21 17:51:14 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@ void	ft_multiexe(void)
 		}
 		tmp = tmp->next;
 	}
-	waitpid(pid[-1], 0, 0);
+	waitpid(pid[-1], &g_o.ex_code, 0);
+	g_o.ex_code = WEXITSTATUS(g_o.ex_code);
 	ft_close_multipipe(pipes);
 }
 

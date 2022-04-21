@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:49:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/21 12:59:27 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/21 17:50:30 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,21 +57,16 @@ t_o	g_o;
 //libft
 t_lst	*ft_put_lst_new(void);
 t_lst	*ft_lstnew(void *content);
-
 int		ft_lstsize(t_lst *lst);
 int		ft_strcmp(char *s1, char *s2);
-
 char	*ft_gnl(void);
 char	**ft_split_mod(char *s, char c);
 char	*ft_sjoin(char *s1, char *s2, int flag, int flag2);
-
 void	ft_lstadd_back(t_lst **lst, t_lst *new);
-
 //logic
 int		**ft_create_pipes(void);
 int		ft_open_file(t_lst *o, int flag);
 int		ft_check_quotes(char *s, int *index, char c);
-
 char	**ft_conv_env(void);
 char	*ft_find_env(char *s);
 char	*find_dollar(char *str);
@@ -81,7 +76,6 @@ char	*ft_parse_quotes(t_lst *o, int *j, char c);
 char	*ft_parse_lite(t_lst *o, int flag, int flag2);
 char	*ft_substr_m(char *s, int start, int len, int flag);
 char	*ft_parse_redirect(t_lst *o, int flag, int flag2);
-
 void	ft_signals(void);
 void	ft_interceptor(t_lst *tmp);
 void	ft_free_all(void);
@@ -95,5 +89,4 @@ void	ft_check_parse(t_lst *o);
 void	ft_close_multipipe(int **multipipe);
 void	ft_dup(t_lst *tmp, int i, int **multipipe);
 void	ft_put_redirect_to_list(t_lst *tmp, int *i);
-
 #endif
