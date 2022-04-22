@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:48:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/22 21:08:22 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/22 21:51:59 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,9 @@ void	ft_do_cmd(int *pid, int **pipes)
 		}
 		tmp = tmp->next;
 	}
+	i = -1;
+	while (++i < g_o.count_final - 1)
+		waitpid(pid[i], &g_o.ex_code, 0);
 }
 
 void	ft_multiexe(void)
@@ -83,10 +86,9 @@ void	ft_multiexe(void)
 	int		*pid;
 	int		**pipes;
 
-	pid = malloc(sizeof(int *) * g_o.count_final);
+	pid = malloc(sizeof(int *) * g_o.count_final - 1);
 	pipes = ft_create_pipes();
 	ft_do_cmd(pid, pipes);
-	waitpid(pid[-1], &g_o.ex_code, 0);
 	g_o.ex_code = WEXITSTATUS(g_o.ex_code);
 	ft_close_multipipe(pipes);
 }
@@ -107,7 +109,11 @@ void	ft_printf(void)
 	{
 		i = -1;
 		while (tmp->execve[++i])
+		{
+			printf("in = %d\n", tmp->fd_in);
+			printf("out = %d\n", tmp->fd_out);
 			printf("str-execve = %s\n", tmp->execve[i]);
+		}
 		printf("----\n");
 		tmp = tmp->next;
 	}
