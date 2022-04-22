@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 13:45:14 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/22 17:54:32 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/22 19:58:40 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ void	ft_else(t_lst *tmp, int *i)
 	else
 	{
 		tmp2 = ft_lstnew(ft_substr(tmp->str, *i + 1, ft_strlen(tmp->str)));
-		printf("tmp2 = %s\n", tmp2->str);
 		tmp->str = ft_substr_m(tmp->str, 0, *i + 1, 1);
 	}
 	ft_concatenator(tmp, tmp2);
@@ -105,7 +104,10 @@ void	ft_put_redirect_to_list(t_lst *tmp, int *i)
 
 	start = ft_substr(tmp->str, 0, *i);
 	if (ft_strlen(start) > 0)
+	{
 		ft_if(tmp, start, i);
+		*i = 0;
+	}
 	else
 	{
 		free(start);

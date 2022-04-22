@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:48:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/22 17:54:42 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/22 21:08:22 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,28 @@ void	ft_multiexe(void)
 	ft_close_multipipe(pipes);
 }
 
+void	ft_printf(void)
+{
+	int		i;
+	t_lst	*tmp;
+
+	tmp = g_o.args;
+	while (tmp)
+	{
+		printf("str = %s, meta_flag = %d\n", tmp->str, tmp->flag_meta);
+		tmp = tmp->next;
+	}
+	tmp = g_o.final;
+	while (tmp)
+	{
+		i = -1;
+		while (tmp->execve[++i])
+			printf("str-execve = %s\n", tmp->execve[i]);
+		printf("----\n");
+		tmp = tmp->next;
+	}
+}
+
 int	main(int ac, char **av, char **env)
 {
 	(void)ac;
@@ -113,6 +135,7 @@ int	main(int ac, char **av, char **env)
 		else
 		{
 			ft_preparsing();
+			//ft_printf();
 			g_o.count_final = ft_lstsize(g_o.final);
 			ft_multiexe();
 		}
