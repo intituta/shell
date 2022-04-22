@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 13:12:09 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/21 12:12:06 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/22 10:06:07 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,12 @@ void	ft_preparsing(void)
 	int	i;
 
 	i = -1;
+	g_o.first = ft_create_history(NULL);
+	ft_find_history();
 	add_history(g_o.input);
+	g_o.page = ft_create_history(g_o.input);
+	ft_history_add_back(&g_o.first, g_o.page);
+	ft_write_history(g_o.first);
 	g_o.split = ft_split_mod(g_o.input, ' ');
 	if (!g_o.split)
 		return ;

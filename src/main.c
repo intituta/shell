@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:48:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/21 17:51:14 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/22 10:18:14 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int	main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
+	ft_check_history();
 	ft_init_struct(1);
 	ft_init_env(env);
 	ft_shlvl();
