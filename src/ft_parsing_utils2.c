@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 10:05:03 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/21 12:12:11 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/22 13:54:20 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ int	ft_open_file(t_lst *o, int flag)
 	}
 	else if (flag == 2)
 	{
-		g_o.fd_out = open(o->str, O_WRONLY | O_TRUNC | O_CREAT, 0777);
+		g_o.fd_out = open(o->str, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		if (g_o.fd_out == -1)
 			return (1);
 	}
 	else if (flag == 3)
 	{
-		g_o.fd_out = open(o->str, O_WRONLY | O_APPEND | O_CREAT, 0777);
+		g_o.fd_out = open(o->str, O_WRONLY | O_APPEND | O_CREAT, 0644);
 		if (g_o.fd_out == -1)
 			return (1);
 	}
@@ -81,6 +81,8 @@ int	ft_open_file(t_lst *o, int flag)
 
 int	ft_check_redirects(t_lst *tmp)
 {
+	if (!ft_strcmp(tmp->str, "<>"))
+			tmp->str = ft_substr_m(tmp->str, 1, 1, 1);
 	if (!ft_strcmp(tmp->str, ">>") || !ft_strcmp(tmp->str, "<<")
 		|| !ft_strcmp(tmp->str, ">") || !ft_strcmp(tmp->str, "<")
 		|| !ft_strcmp(tmp->str, "|"))
@@ -90,7 +92,6 @@ int	ft_check_redirects(t_lst *tmp)
 
 void	ft_check_list(void)
 {
-	int		i;
 	t_lst	*tmp;
 
 	tmp = g_o.args;
@@ -101,18 +102,8 @@ void	ft_check_list(void)
 			tmp = tmp->next;
 			continue ;
 		}
-		i = -1;
-		while (tmp->str[++i])
-		{
-			if (tmp->str[i] == '\'')
-				if (!ft_check_quotes(tmp->str, &i, '\''))
-					return ;
-			if (tmp->str[i] == '"')
-				if (!ft_check_quotes(tmp->str, &i, '"'))
-					return ;
-			if (tmp->str[i] == '>' || tmp->str[i] == '<' || tmp->str[i] == '|')
-				ft_put_redirect_to_list(tmp, &i);
-		}
+		if (ft_start_preparse(tmp))
+			return ;
 		tmp = tmp->next;
 	}
 }

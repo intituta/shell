@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/10 10:24:22 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/21 12:12:35 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/22 13:41:42 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,13 @@ void	ft_heredoc(t_lst *o)
 	res = NULL;
 	while (1)
 	{
-		write(1, "> ", 2);
-		tmp = ft_gnl();
+		tmp = readline("> ");
 		if (ft_strcmp(tmp, o->str) == 0)
 			break ;
 		if (!tmp)
 			return (free(res));
+		if (ft_strlen(res))
+			res = ft_sjoin(res, "\n", 1, 0);
 		res = ft_sjoin(res, tmp, 1, 1);
 	}
 	pipe(g_o.pipe);

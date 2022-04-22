@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 13:12:09 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/22 10:06:07 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/22 13:53:53 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	ft_parsing(void)
 					tmp->str = ft_parse_dollar(tmp->str, &j);
 			else if (!tmp->flag_meta
 				&& (tmp->str[j] == '<' || tmp->str[j] == '>'))
-				tmp->str = ft_redirects(tmp, &j);
+					tmp->str = ft_redirects(tmp, &j);
 			else if (!tmp->flag_meta && tmp->str[j] == '|')
 				tmp->str = ft_parse_redirect(tmp, 2, 0);
 		}

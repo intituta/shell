@@ -6,11 +6,18 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 13:40:01 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/21 17:52:20 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/22 13:28:43 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	ft_concatenator(t_lst *tmp, t_lst *tmp2)
+{
+	g_o.count++;
+	tmp2->next = tmp->next;
+	tmp->next = tmp2;
+}
 
 char	*ft_parse_redirect(t_lst *o, int flag, int flag2)
 {

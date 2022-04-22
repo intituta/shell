@@ -6,47 +6,11 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 13:19:02 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/21 12:12:15 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/22 13:46:23 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-void	ft_concatenator(t_lst *tmp, t_lst *tmp2)
-{
-	g_o.count++;
-	tmp2->next = tmp->next;
-	tmp->next = tmp2;
-}
-
-void	ft_put_redirect_to_list(t_lst *tmp, int *i)
-{
-	char	*start;
-	t_lst	*tmp2;
-
-	start = ft_substr(tmp->str, 0, *i);
-	if (ft_strlen(start) > 0)
-	{
-		tmp2 = ft_lstnew(ft_substr_m(tmp->str, (*i)++, ft_strlen(tmp->str), 1));
-		tmp->str = ft_substr_m(start, 0, ft_strlen(start), 1);
-	}
-	else
-	{
-		free(start);
-		if ((tmp->str[*i] != '|' && tmp->str[*i + 1] == '>')
-			|| (tmp->str[*i] != '|' && tmp->str[*i + 1] == '<'))
-		{
-			tmp2 = ft_lstnew(ft_substr(tmp->str, *i + 2, ft_strlen(tmp->str)));
-			tmp->str = ft_substr_m(tmp->str, 0, (*i)++ + 2, 1);
-		}
-		else
-		{
-			tmp2 = ft_lstnew(ft_substr(tmp->str, *i + 1, ft_strlen(tmp->str)));
-			tmp->str = ft_substr_m(tmp->str, 0, *i + 1, 1);
-		}
-	}
-	ft_concatenator(tmp, tmp2);
-}
 
 void	ft_put_final_args(void)
 {
