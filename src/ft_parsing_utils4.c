@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 13:45:14 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/22 14:41:30 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/22 17:54:32 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	ft_else(t_lst *tmp, int *i)
 	else
 	{
 		tmp2 = ft_lstnew(ft_substr(tmp->str, *i + 1, ft_strlen(tmp->str)));
+		printf("tmp2 = %s\n", tmp2->str);
 		tmp->str = ft_substr_m(tmp->str, 0, *i + 1, 1);
 	}
 	ft_concatenator(tmp, tmp2);
@@ -91,11 +92,9 @@ void	ft_if(t_lst *tmp, char *start, int *i)
 
 	if ((tmp->str[*i] == '<' && tmp->str[*i + 1] == '>')
 		|| (tmp->str[*i] == '>' && tmp->str[*i + 1] == '<'))
-	tmp2 = ft_lstnew(ft_substr_m(tmp->str, ++(*i),
-					ft_strlen(tmp->str), 1));
+		tmp2 = ft_lstnew(ft_substr_m(tmp->str, ++(*i), ft_strlen(tmp->str), 1));
 	else
-		tmp2 = ft_lstnew(ft_substr_m(tmp->str, (*i)++,
-					ft_strlen(tmp->str), 1));
+		tmp2 = ft_lstnew(ft_substr_m(tmp->str, (*i)++, ft_strlen(tmp->str), 1));
 	tmp->str = ft_substr_m(start, 0, ft_strlen(start), 1);
 	ft_concatenator(tmp, tmp2);
 }
