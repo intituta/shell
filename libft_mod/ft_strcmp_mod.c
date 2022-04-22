@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/10 10:26:40 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/21 12:12:48 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/22 15:26:47 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,14 @@
 
 int	ft_strcmp(char *s1, char *s2)
 {
-	int	i;
-
-	i = 0;
-	if (s1 == NULL || s2 == NULL)
+	if (s1 == NULL)
 		return (1);
-	while (s1[i] || s2[i])
+	while (*s1 || *s2)
 	{
-		if (i != 0 && s1[i] == '\n' && s2[i] != '\n')
-			return (0);
-		if (s1[i] != s2[i])
-			return (s1[i] - s2[i]);
-		i++;
+		if (*s1 != *s2)
+			return (1);
+		s1 ++;
+		s2 ++;
 	}
 	return (0);
 }

@@ -6,11 +6,28 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 12:38:13 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/22 10:47:43 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/22 15:13:33 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	ft_init_struct(int flag)
+{
+	if (flag)
+		g_o.env = NULL;
+	g_o.input = NULL;
+	g_o.fd_in = -2;
+	g_o.fd_out = -2;
+	g_o.pipe[0] = -2;
+	g_o.pipe[1] = -2;
+	g_o.count = 0;
+	g_o.args = NULL;
+	g_o.final = NULL;
+	g_o.split = NULL;
+	g_o.count_final = 0;
+	g_o.final_args = NULL;
+}
 
 void	ft_free_struct(t_lst *s)
 {

@@ -6,18 +6,11 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 13:40:01 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/22 13:28:43 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/22 15:27:17 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-void	ft_concatenator(t_lst *tmp, t_lst *tmp2)
-{
-	g_o.count++;
-	tmp2->next = tmp->next;
-	tmp->next = tmp2;
-}
 
 char	*ft_parse_redirect(t_lst *o, int flag, int flag2)
 {
@@ -28,19 +21,30 @@ char	*ft_parse_redirect(t_lst *o, int flag, int flag2)
 	return (write(2, "syntax error\n", 13), ft_free_all(), NULL);
 }
 
+int	ft_check_syntax(t_lst *o)
+{
+	if (!o->next)
+		return (1);
+	if (o->next->str[0] == '|' || o->next->str[0] == '<'
+		|| o->next->str[0] == '>')
+		return (1);
+	return (0);
+}
+
 char	*ft_parse_lite(t_lst *o, int flag, int flag2)
 {
 	int		i;
 
 	i = 0;
-	if (!o->next)
-		return (write(2, "syntax error\n", 13), ft_free_all(), NULL);
-	if (o->next->str[0] == '|' || o->next->str[0] == '<'
-		|| o->next->str[0] == '>')
+	if (ft_check_syntax(o))
 		return (write(2, "syntax error\n", 13), ft_free_all(), NULL);
 	ft_check_parse(o->next);
 	if (flag == 1)
+	{
 		ft_heredoc(o->next);
+		free(o->next->str);
+		o->next->str = NULL;
+	}
 	else if (flag == 2)
 	{
 		o->pipe_flag = 1;
