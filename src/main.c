@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:48:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/22 21:51:59 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/23 12:22:22 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	ft_init_env(char **env)
 	}
 }
 
-void	ft_do_cmd(int *pid, int **pipes)
+void	ft_do_cmd(int **pipes, int *pid)
 {
 	int		i;
 	char	**env;
@@ -60,14 +60,14 @@ void	ft_do_cmd(int *pid, int **pipes)
 
 	i = -1;
 	tmp = g_o.final;
-	while (tmp)
+	while (++i < g_o.count_final)
 	{
 		if (!ft_interceptor(tmp))
 		{
 			tmp = tmp->next;
 			continue ;
 		}
-		pid[++i] = fork();
+		pid[i] = fork();
 		if (!pid[i])
 		{
 			env = ft_conv_env();
@@ -76,9 +76,7 @@ void	ft_do_cmd(int *pid, int **pipes)
 		}
 		tmp = tmp->next;
 	}
-	i = -1;
-	while (++i < g_o.count_final - 1)
-		waitpid(pid[i], &g_o.ex_code, 0);
+	wait(0);
 }
 
 void	ft_multiexe(void)
@@ -86,37 +84,12 @@ void	ft_multiexe(void)
 	int		*pid;
 	int		**pipes;
 
-	pid = malloc(sizeof(int *) * g_o.count_final - 1);
+	g_o.count_final = ft_lstsize(g_o.final);
+	pid = malloc(sizeof(int *) * g_o.count_final);
 	pipes = ft_create_pipes();
-	ft_do_cmd(pid, pipes);
+	ft_do_cmd(pipes, pid);
 	g_o.ex_code = WEXITSTATUS(g_o.ex_code);
 	ft_close_multipipe(pipes);
-}
-
-void	ft_printf(void)
-{
-	int		i;
-	t_lst	*tmp;
-
-	tmp = g_o.args;
-	while (tmp)
-	{
-		printf("str = %s, meta_flag = %d\n", tmp->str, tmp->flag_meta);
-		tmp = tmp->next;
-	}
-	tmp = g_o.final;
-	while (tmp)
-	{
-		i = -1;
-		while (tmp->execve[++i])
-		{
-			printf("in = %d\n", tmp->fd_in);
-			printf("out = %d\n", tmp->fd_out);
-			printf("str-execve = %s\n", tmp->execve[i]);
-		}
-		printf("----\n");
-		tmp = tmp->next;
-	}
 }
 
 int	main(int ac, char **av, char **env)
@@ -141,8 +114,6 @@ int	main(int ac, char **av, char **env)
 		else
 		{
 			ft_preparsing();
-			//ft_printf();
-			g_o.count_final = ft_lstsize(g_o.final);
 			ft_multiexe();
 		}
 		ft_free_all();

@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 10:17:18 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/22 21:24:09 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/23 12:22:45 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,5 +103,4 @@ void	ft_dup(t_lst *tmp, int i, int **multipipe)
 		dup2(multipipe[i][1], 1);
 	close(tmp->fd_in);
 	close(tmp->fd_out);
-	ft_close_multipipe(multipipe);
 }
