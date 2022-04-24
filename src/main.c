@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:48:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/24 15:26:07 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/24 17:42:06 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,15 @@ void	ft_multiexe(void)
 	pid = malloc(sizeof(int *) * g_o.count_final);
 	env = ft_conv_env();
 	ft_exe(tmp, pid, env, pipe_fd);
+	i = -1;
 	close(pipe_fd[0][0]);
 	close(pipe_fd[1][0]);
-	i = -1;
 	while (++i < g_o.count_final)
 		waitpid(pid[i], 0, 0);
+	i = -1;
+	while (env[++i])
+		free(env[i]);
+	free(env);
 }
 
 int	main(int ac, char **av, char **env)

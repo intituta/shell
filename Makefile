@@ -6,14 +6,14 @@
 #    By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/06 10:56:01 by kferterb          #+#    #+#              #
-#    Updated: 2022/04/22 13:58:02 by kferterb         ###   ########.fr        #
+#    Updated: 2022/04/24 16:57:42 by kferterb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	minishell
 
 CC			=	gcc
-CFLAGS		=	-Wall -Werror -Wextra
+CFLAGS		=	#-Wall -Werror -Wextra
 HEADER		=	include/minishell.h
 RM			=	rm -f
 LIBS		=	-L libft -lft
