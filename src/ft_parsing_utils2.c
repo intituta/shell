@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 10:05:03 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/22 13:54:20 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/24 13:27:42 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,19 +58,21 @@ int	ft_open_file(t_lst *o, int flag)
 {
 	if (flag == 1)
 	{
-		g_o.fd_in = open(o->str, O_RDONLY);
+		g_o.fd_in = open(o->str, O_RDONLY, O_CLOEXEC);
 		if (g_o.fd_in == -1)
 			return (1);
 	}
 	else if (flag == 2)
 	{
-		g_o.fd_out = open(o->str, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		g_o.fd_out = open(o->str, O_WRONLY
+				| O_CLOEXEC | O_TRUNC | O_CREAT, 0644);
 		if (g_o.fd_out == -1)
 			return (1);
 	}
 	else if (flag == 3)
 	{
-		g_o.fd_out = open(o->str, O_WRONLY | O_APPEND | O_CREAT, 0644);
+		g_o.fd_out = open(o->str, O_WRONLY
+				| O_CLOEXEC | O_APPEND | O_CREAT, 0644);
 		if (g_o.fd_out == -1)
 			return (1);
 	}

@@ -6,11 +6,71 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 10:17:18 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/23 12:22:45 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/24 15:30:15 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	ft_dup(t_lst *tmp, int i, char **env, int pipe_fd[2][2])
+{
+	if (tmp->fd_in > 0)
+		dup2(tmp->fd_in, 0);
+	else if (i > 0)
+		dup2(pipe_fd[1][0], 0);
+	if (tmp->fd_out > 0)
+		dup2(tmp->fd_out, 1);
+	else if (i < g_o.count_final - 1)
+		dup2(pipe_fd[0][1], 1);
+	close(pipe_fd[0][0]);
+	close(pipe_fd[0][1]);
+	ft_find_path(env, tmp);
+}
+
+void	ft_dup2(t_lst *tmp, int i, char **env, int pipe_fd[2][2])
+{
+	if (tmp->fd_in > 0)
+		dup2(tmp->fd_in, 0);
+	else if (i > 0)
+		dup2(pipe_fd[0][0], 0);
+	if (tmp->fd_out > 0)
+		dup2(tmp->fd_out, 1);
+	else if (i < g_o.count_final - 1)
+		dup2(pipe_fd[1][1], 1);
+	close(pipe_fd[0][0]);
+	close(pipe_fd[1][0]);
+	close(pipe_fd[1][1]);
+	ft_find_path(env, tmp);
+}
+
+void	ft_exe(t_lst *tmp, int *pid, char **env, int pipe_fd[2][2])
+{
+	int		i;
+
+	i = 0;
+	while (i < g_o.count_final)
+	{
+		pipe(pipe_fd[0]);
+		pid[i] = fork();
+		if (!pid[i])
+			ft_dup(tmp, i, env, pipe_fd);
+		close(pipe_fd[0][1]);
+		close(pipe_fd[1][0]);
+		tmp = tmp->next;
+		i++;
+		if (i < g_o.count_final)
+		{
+			pipe(pipe_fd[1]);
+			pid[i] = fork();
+			if (!pid[i])
+				ft_dup2(tmp, i, env, pipe_fd);
+			close(pipe_fd[0][0]);
+			close(pipe_fd[1][1]);
+			tmp = tmp->next;
+			i++;
+		}
+	}
+}
 
 char	*ft_find_path(char **env, t_lst *tmp)
 {
@@ -55,52 +115,4 @@ char	**ft_conv_env(void)
 	}
 	env[count] = NULL;
 	return (env);
-}
-
-void	ft_close_multipipe(int **multipipe)
-{
-	int	i;
-
-	i = -1;
-	if (multipipe)
-	{
-		while (++i < g_o.count_final - 1)
-		{
-			close(multipipe[i][0]);
-			close(multipipe[i][1]);
-		}
-		i = -1;
-		while (++i < g_o.count_final - 1)
-			free(multipipe[i]);
-		free(multipipe);
-	}
-}
-
-int	**ft_create_pipes(void)
-{
-	int	i;
-	int	**res;
-
-	i = -1;
-	res = malloc(sizeof(int *) * g_o.count_final - 1);
-	while (++i < g_o.count_final - 1)
-	{
-		res[i] = malloc(sizeof(int) * 2);
-		pipe(res[i]);
-	}
-	return (res);
-}
-
-void	ft_dup(t_lst *tmp, int i, int **multipipe)
-{
-	if (tmp->fd_in > 0)
-		dup2(tmp->fd_in, 0);
-	else if (i > 0)
-		dup2(multipipe[i - 1][0], 0);
-	if (tmp->fd_out > 0)
-		dup2(tmp->fd_out, 1);
-	else if (tmp->fd_out == -2 && i < g_o.count_final - 1)
-		dup2(multipipe[i][1], 1);
-	close(tmp->fd_in);
-	close(tmp->fd_out);
 }

@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:48:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/23 12:22:22 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/24 15:26:07 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,44 +52,24 @@ void	ft_init_env(char **env)
 	}
 }
 
-void	ft_do_cmd(int **pipes, int *pid)
+void	ft_multiexe(void)
 {
 	int		i;
+	int		*pid;
+	int		pipe_fd[2][2];
 	char	**env;
 	t_lst	*tmp;
 
-	i = -1;
 	tmp = g_o.final;
-	while (++i < g_o.count_final)
-	{
-		if (!ft_interceptor(tmp))
-		{
-			tmp = tmp->next;
-			continue ;
-		}
-		pid[i] = fork();
-		if (!pid[i])
-		{
-			env = ft_conv_env();
-			ft_dup(tmp, i, pipes);
-			ft_find_path(env, tmp);
-		}
-		tmp = tmp->next;
-	}
-	wait(0);
-}
-
-void	ft_multiexe(void)
-{
-	int		*pid;
-	int		**pipes;
-
 	g_o.count_final = ft_lstsize(g_o.final);
 	pid = malloc(sizeof(int *) * g_o.count_final);
-	pipes = ft_create_pipes();
-	ft_do_cmd(pipes, pid);
-	g_o.ex_code = WEXITSTATUS(g_o.ex_code);
-	ft_close_multipipe(pipes);
+	env = ft_conv_env();
+	ft_exe(tmp, pid, env, pipe_fd);
+	close(pipe_fd[0][0]);
+	close(pipe_fd[1][0]);
+	i = -1;
+	while (++i < g_o.count_final)
+		waitpid(pid[i], 0, 0);
 }
 
 int	main(int ac, char **av, char **env)
