@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 13:45:14 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/22 19:58:40 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/24 19:30:52 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	ft_heredoc(t_lst *o)
 			res = ft_sjoin(res, "\n", 1, 0);
 		res = ft_sjoin(res, tmp, 1, 1);
 	}
+	res = ft_sjoin(res, "\n", 1, 0);
 	pipe(g_o.pipe);
 	write(g_o.pipe[1], res, ft_strlen(res));
 	g_o.fd_in = g_o.pipe[0];

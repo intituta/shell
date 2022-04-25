@@ -6,13 +6,13 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 10:17:18 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/24 17:41:49 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/25 09:53:48 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	ft_dup(t_lst *tmp, int i, char **env, int pipe_fd[2][2])
+void	ft_dup(t_lst *tmp, int i, int pipe_fd[2][2])
 {
 	if (tmp->fd_in > 0)
 		dup2(tmp->fd_in, 0);
@@ -24,10 +24,10 @@ void	ft_dup(t_lst *tmp, int i, char **env, int pipe_fd[2][2])
 		dup2(pipe_fd[0][1], 1);
 	close(pipe_fd[0][0]);
 	close(pipe_fd[0][1]);
-	ft_find_path(env, tmp);
+	ft_find_path(tmp);
 }
 
-void	ft_dup2(t_lst *tmp, int i, char **env, int pipe_fd[2][2])
+void	ft_dup2(t_lst *tmp, int i, int pipe_fd[2][2])
 {
 	if (tmp->fd_in > 0)
 		dup2(tmp->fd_in, 0);
@@ -40,10 +40,10 @@ void	ft_dup2(t_lst *tmp, int i, char **env, int pipe_fd[2][2])
 	close(pipe_fd[0][0]);
 	close(pipe_fd[1][0]);
 	close(pipe_fd[1][1]);
-	ft_find_path(env, tmp);
+	ft_find_path(tmp);
 }
 
-void	ft_exe(t_lst *tmp, int *pid, char **env, int pipe_fd[2][2])
+void	ft_exe(t_lst *tmp, int *pid, int pipe_fd[2][2])
 {
 	int		i;
 
@@ -53,7 +53,7 @@ void	ft_exe(t_lst *tmp, int *pid, char **env, int pipe_fd[2][2])
 		pipe(pipe_fd[0]);
 		pid[i] = fork();
 		if (!pid[i])
-			ft_dup(tmp, i, env, pipe_fd);
+			ft_dup(tmp, i, pipe_fd);
 		close(pipe_fd[0][1]);
 		close(pipe_fd[1][0]);
 		tmp = tmp->next;
@@ -63,7 +63,7 @@ void	ft_exe(t_lst *tmp, int *pid, char **env, int pipe_fd[2][2])
 			pipe(pipe_fd[1]);
 			pid[i] = fork();
 			if (!pid[i])
-				ft_dup2(tmp, i, env, pipe_fd);
+				ft_dup2(tmp, i, pipe_fd);
 			close(pipe_fd[0][0]);
 			close(pipe_fd[1][1]);
 			tmp = tmp->next;
@@ -72,47 +72,46 @@ void	ft_exe(t_lst *tmp, int *pid, char **env, int pipe_fd[2][2])
 	}
 }
 
-char	*ft_find_path(char **env, t_lst *tmp)
+void	ft_get_path(t_lst *tmp, int i)
 {
-	int	i;
-	int	k;
+	int		j;
+	char	*path;
+	char	**strs;
+
+	j = -1;
+	strs = ft_split(g_o.env[i] + 5, ':');
+	while (strs[++j])
+	{
+		path = ft_strjoin(strs[j], "/");
+		path = ft_sjoin(path, tmp->execve[0], 1, 0);
+		if (!access(path, F_OK))
+		{
+			j = -1;
+			while (strs[++j])
+				free(strs[j]);
+			free(strs);
+			execve(path, tmp->execve, g_o.env);
+		}
+		free(path);
+	}
+	j = -1;
+	while (strs[++j])
+		free(strs[j]);
+	free(strs);
+}
+
+char	*ft_find_path(t_lst *tmp)
+{
+	int		i;
 
 	i = 0;
-	k = -1;
-	while (ft_strnstr(env[i], "PATH=", 5) == NULL)
-		if (env[++i] == NULL)
+	while (ft_strnstr(g_o.env[i], "PATH=", 5) == NULL)
+		if (g_o.env[++i] == NULL)
 			return (write(1, "error: unset path\n", 18), ft_free_all(), NULL);
-	execve(ft_split(tmp->execve[0], ' ')[0], tmp->execve, env);
-	while (ft_split(env[i] + 5, ':')[++k])
-		execve(ft_strjoin(ft_strjoin(ft_split(env[i] + 5, ':')[k], "/"),
-				tmp->execve[0]), tmp->execve, env);
+	execve(ft_split(tmp->execve[0], ' ')[0], tmp->execve, g_o.env);
+	ft_get_path(tmp, i);
 	write(2, tmp->execve[0], ft_strlen(tmp->execve[0]));
 	write(2, ": cmd not found\n", 16);
 	ft_free_all();
 	exit(127);
-}
-
-char	**ft_conv_env(void)
-{
-	int		count;
-	char	**env;
-	t_lst	*tmp;
-
-	count = 0;
-	tmp = g_o.env;
-	while (tmp)
-	{
-		count++;
-		tmp = tmp->next;
-	}
-	env = malloc(sizeof(char *) * count + 1);
-	tmp = g_o.env;
-	count = 0;
-	while (tmp)
-	{
-		env[count++] = ft_strdup(tmp->str);
-		tmp = tmp->next;
-	}
-	env[count] = NULL;
-	return (env);
 }

@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 10:05:03 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/24 13:27:42 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/24 19:28:12 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,18 @@
 
 char	*ft_find_env(char *s)
 {
+	int		i;
 	char	*res;
-	t_lst	*tmp;
 
+	i = 0;
 	res = NULL;
-	tmp = g_o.env;
-	while (tmp)
-	{
-		if (!ft_strncmp(tmp->str, s, ft_strlen(s)))
-		{
-			if (tmp->str[ft_strlen(s)] == '=')
-				res = ft_substr(tmp->str, ft_strlen(s) + 1,
-						ft_strlen(tmp->str));
-		}
-		tmp = tmp->next;
-	}
-	free(s);
-	return (res);
+	while (!ft_strnstr(g_o.env[i], s, ft_strlen(s)))
+		if (!g_o.env[++i])
+			return (free(s), NULL);
+	if (g_o.env[i][ft_strlen(s)] == '=')
+		res = ft_substr(g_o.env[i], ft_strlen(s) + 1,
+				ft_strlen(g_o.env[i]));
+	return (free(s), res);
 }
 
 void	ft_check_parse(t_lst *o)
