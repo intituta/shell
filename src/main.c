@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:48:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/25 10:21:12 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/25 12:48:06 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,28 @@ void	ft_init_env(char **env)
 	}
 }
 
-void	ft_check_buildin(t_lst *tmp)
+void	ft_wait(int *pid, int pipe_fd[2][2])
 {
+	int		i;
+
+	i = -1;
+	close(pipe_fd[0][0]);
+	close(pipe_fd[1][0]);
+	while (++i < g_o.count_final)
+		waitpid(pid[i], &g_o.ex_code, 0);
+	g_o.ex_code = WEXITSTATUS(g_o.ex_code);
+	free(pid);
+}
+
+void	ft_multiexe(void)
+{
+	int		*pid;
+	int		pipe_fd[2][2];
+	t_lst	*tmp;
+
+	tmp = g_o.final;
+	g_o.count_final = ft_lstsize(g_o.final);
+	pid = malloc(sizeof(int *) * g_o.count_final);
 	while (tmp)
 	{
 		if (!ft_interceptor(tmp))
@@ -72,28 +92,10 @@ void	ft_check_buildin(t_lst *tmp)
 		}
 		break ;
 	}
-}
-
-void	ft_multiexe(void)
-{
-	int		i;
-	int		*pid;
-	int		pipe_fd[2][2];
-	t_lst	*tmp;
-
-	tmp = g_o.final;
-	g_o.count_final = ft_lstsize(g_o.final);
-	pid = malloc(sizeof(int *) * g_o.count_final);
-	ft_check_buildin(tmp);
 	if (tmp)
 	{
 		ft_exe(tmp, pid, pipe_fd);
-		i = -1;
-		close(pipe_fd[0][0]);
-		close(pipe_fd[1][0]);
-		while (++i < g_o.count_final)
-			waitpid(pid[i], &g_o.ex_code, 0);
-		g_o.ex_code = WEXITSTATUS(g_o.ex_code);
+		ft_wait(pid, pipe_fd);
 	}
 }
 

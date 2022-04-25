@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:49:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/24 19:15:48 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/25 12:17:57 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,7 @@ void	ft_check_parse(t_lst *o);
 void	ft_concatenator(t_lst *tmp, t_lst *tmp2);
 void	ft_put_redirect_to_list(t_lst *tmp, int *i);
 void	ft_exe(t_lst *tmp, int *pid, int pipe_fd[2][2]);
+//buildin
+void	ft_env(void);
+void	ft_pwd(void);
 #endif

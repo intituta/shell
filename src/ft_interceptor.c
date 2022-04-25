@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 12:53:52 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/22 14:48:55 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/25 12:35:18 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_interceptor(t_lst *tmp)
 	if (!ft_strcmp(tmp->execve[0], "cd"))
 		return (printf("cd OK\n"), 0);
 	else if (!ft_strcmp(tmp->execve[0], "pwd"))
-		return (printf("pwd OK\n"), 0);
+		return (ft_pwd(), 0);
 	else if (!ft_strcmp(tmp->execve[0], "echo"))
 		return (printf("echo OK\n"), 0);
 	else if (!ft_strcmp(tmp->execve[0], "export"))
@@ -25,7 +25,7 @@ int	ft_interceptor(t_lst *tmp)
 	else if (!ft_strcmp(tmp->execve[0], "unset"))
 		return (printf("unset OK\n"), 0);
 	else if (!ft_strcmp(tmp->execve[0], "env"))
-		return (printf("env OK\n"), 0);
+		return (ft_env(), 0);
 	else if (!ft_strcmp(tmp->execve[0], "exit"))
 		return (printf("exit OK\n"), 0);
 	return (1);
