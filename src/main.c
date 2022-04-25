@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:48:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/25 09:58:08 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/25 10:21:12 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,19 @@ void	ft_init_env(char **env)
 	}
 }
 
+void	ft_check_buildin(t_lst *tmp)
+{
+	while (tmp)
+	{
+		if (!ft_interceptor(tmp))
+		{
+			tmp = tmp->next;
+			continue ;
+		}
+		break ;
+	}
+}
+
 void	ft_multiexe(void)
 {
 	int		i;
@@ -71,13 +84,17 @@ void	ft_multiexe(void)
 	tmp = g_o.final;
 	g_o.count_final = ft_lstsize(g_o.final);
 	pid = malloc(sizeof(int *) * g_o.count_final);
-	ft_exe(tmp, pid, pipe_fd);
-	i = -1;
-	close(pipe_fd[0][0]);
-	close(pipe_fd[1][0]);
-	while (++i < g_o.count_final)
-		waitpid(pid[i], &g_o.ex_code, 0);
-	g_o.ex_code = WEXITSTATUS(g_o.ex_code);
+	ft_check_buildin(tmp);
+	if (tmp)
+	{
+		ft_exe(tmp, pid, pipe_fd);
+		i = -1;
+		close(pipe_fd[0][0]);
+		close(pipe_fd[1][0]);
+		while (++i < g_o.count_final)
+			waitpid(pid[i], &g_o.ex_code, 0);
+		g_o.ex_code = WEXITSTATUS(g_o.ex_code);
+	}
 }
 
 int	main(int ac, char **av, char **env)
