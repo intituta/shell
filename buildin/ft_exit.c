@@ -6,11 +6,23 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:05:16 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/26 10:21:39 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/26 16:05:31 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	ft_exit_code_plus(t_lst *tmp)
+{
+	if (ft_atoi(tmp->execve[1]) < 0)
+	{
+		g_o.ex_code = 256 + ft_atoi(tmp->execve[1]);
+		while (g_o.ex_code < 0)
+			g_o.ex_code += 256;
+	}
+	else
+		g_o.ex_code = ft_atoi(tmp->execve[1]) % 255;
+}
 
 int	ft_check_num(char	*token)
 {
@@ -47,13 +59,6 @@ int	ft_exit(t_lst *tmp)
 		g_o.ex_code = 1;
 		return (1);
 	}
-	if (ft_atoi(tmp->execve[1]) < 0)
-	{
-		g_o.ex_code = 256 + ft_atoi(tmp->execve[1]);
-		while (g_o.ex_code < 0)
-			g_o.ex_code += 256;
-	}
-	else
-		g_o.ex_code = ft_atoi(tmp->execve[1]) % 255;
+	ft_exit_code_plus(tmp);
 	return (0);
 }

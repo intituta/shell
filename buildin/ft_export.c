@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:03:41 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/26 15:14:25 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/26 16:06:11 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void	ft_print_env(char **env, t_lst *tmp, int *pipe)
 		write(fd, str[1], ft_strlen(str[1]));
 		write(fd, "\"", 1);
 		write(fd, "\n", 1);
-		//ft_free_mass(str);
+		ft_free_mass(str);
 	}
-	//ft_free_mass(env);
+	ft_free_mass(env);
 }
 
 void	ft_swap(char **env, int i, int *flag)

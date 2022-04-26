@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:48:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/26 12:33:14 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/26 15:33:27 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,19 +60,6 @@ void	ft_init_env(char **env)
 	}
 }
 
-void	ft_wait(int *pid, int pipe_fd[2][2])
-{
-	int		i;
-
-	i = -1;
-	close(pipe_fd[0][0]);
-	close(pipe_fd[1][0]);
-	while (++i < g_o.count_final)
-		waitpid(pid[i], &g_o.ex_code, 0);
-	g_o.ex_code = WEXITSTATUS(g_o.ex_code);
-	free(pid);
-}
-
 void	ft_multiexe(void)
 {
 	int		*pid;
@@ -86,16 +73,8 @@ void	ft_multiexe(void)
 	ft_wait(pid, pipe_fd);
 }
 
-int	main(int ac, char **av, char **env)
+void	ft_loop(void)
 {
-	(void)ac;
-	(void)av;
-	ft_check_history();
-	ft_init_struct(1);
-	ft_init_env(env);
-	ft_shlvl();
-	g_o.first = ft_create_history(NULL);
-	ft_find_history();
 	while (1)
 	{
 		ft_signals();
@@ -111,10 +90,23 @@ int	main(int ac, char **av, char **env)
 			continue ;
 		}
 		add_history(g_o.input);
-		g_o.page = ft_create_history(g_o.input);
+		//g_o.page = ft_create_history(g_o.input);
 		ft_preparsing();
 		ft_multiexe();
 		ft_free_all();
 	}
-	ft_write_history(g_o.first);
+}
+
+int	main(int ac, char **av, char **env)
+{
+	(void)ac;
+	(void)av;
+	//ft_check_history();
+	ft_init_struct(1);
+	ft_init_env(env);
+	ft_shlvl();
+	//g_o.first = ft_create_history(NULL);
+	//ft_find_history();
+	ft_loop();
+	//ft_write_history(g_o.first);
 }

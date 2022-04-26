@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:49:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/26 13:44:16 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/26 15:56:28 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,11 @@ void	ft_env(t_lst *tmp, int *pipe);
 void	ft_echo(t_lst *tmp, int *pipe);
 void	ft_export_add_check(char *arg);
 void	ft_export(t_lst *tmp, int *pipe);
+void	ft_wait(int *pid, int pipe_fd[2][2]);
 void	ft_export_add_env(char *arg, int len);
 void	ft_replace_env(char *arg, char *buf, int i);
+void	ft_dup(t_lst *tmp, int i, int pipe_fd[2][2]);
+void	ft_dup2(t_lst *tmp, int i, int pipe_fd[2][2]);
 void	ft_check_out_builtin(t_lst *tmp, int *fd, int *pipe);
 //history
 t_log	*ft_history_last(t_log *lst);
