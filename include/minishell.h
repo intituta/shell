@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:49:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/26 16:16:32 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/26 16:48:04 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,6 @@
 # include "../libft/libft.h"
 # include <readline/history.h>
 # include <readline/readline.h>
-
-# define BEGIN(x,y) "\001\033["#x";"#y"m\002"
-# define CLOSE "\001\033[0m\002"
 
 typedef struct s_lst
 {
