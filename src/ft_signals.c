@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 12:38:13 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/26 16:26:37 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/26 19:30:29 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ void	ft_free_all(void)
 	close(g_o.pipe[1]);
 	close(g_o.fd_in);
 	close(g_o.fd_out);
-	if (g_o.input)
-		free(g_o.input);
 	while (g_o.split && g_o.split[++i])
 		free(g_o.split[i]);
 	free(g_o.split);

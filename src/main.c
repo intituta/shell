@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:48:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/26 16:17:40 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/26 19:29:33 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,27 +73,46 @@ void	ft_multiexe(void)
 	ft_wait(pid, pipe_fd);
 }
 
-int	main(int ac, char **av, char **env)
+void	ft_loop(void)
 {
-	(void)ac;
-	(void)av;
-	ft_init_struct(1);
-	ft_init_env(env);
-	ft_shlvl();
 	while (1)
 	{
 		ft_signals();
-		g_o.input = readline("$ ");
+		g_o.input = readline(BEGIN(1, 96)"$ "CLOSE);
 		if (!g_o.input)
+		{
+			printf("\x1B[1A\x1B[3C" "exit\n");
 			break ;
+		}
 		if (!g_o.input[0])
 		{
 			free(g_o.input);
 			continue ;
 		}
 		add_history(g_o.input);
+		g_o.page = ft_create_history(g_o.input);
+		ft_history_add_back(&g_o.first, g_o.page);
 		ft_preparsing();
+		if (!ft_strcmp(g_o.final->execve[0], "exit")
+			&& ft_lstsize(g_o.final) == 1)
+			if (!ft_exit(g_o.final))
+				break ;
 		ft_multiexe();
 		ft_free_all();
 	}
+}
+
+int	main(int ac, char **av, char **env)
+{
+	(void)ac;
+	(void)av;
+	ft_check_history();
+	ft_init_struct(1);
+	ft_init_env(env);
+	ft_shlvl();
+	g_o.first = ft_create_history(NULL);
+	ft_find_history();
+	ft_loop();
+	ft_write_history(g_o.first);
+	free_history();
 }

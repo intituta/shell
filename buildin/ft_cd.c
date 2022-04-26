@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:23:20 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/26 16:29:26 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/26 10:45:56 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,18 @@ void	ft_change_pwd(char *path, char *old_path)
 	char	*old_path_env;
 	char	*path_env;
 
-	i = -1;
+	i = 0;
 	flag = 0;
 	old_path_env = ft_join("OLDPWD=", old_path, 0);
 	path_env = ft_join("PWD=", path, 0);
-	while (g_o.env[++i])
+	while (g_o.env[i])
 	{
 		if (!ft_strncmp(g_o.env[i], "PWD=", 4))
 		{
 			flag = 1;
 			break ;
 		}
+		i++;
 	}
 	ft_flag_action(path_env, old_path_env, flag);
 	free(old_path);

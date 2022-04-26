@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 10:17:18 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/26 16:44:46 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/26 19:36:27 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,20 @@ void	ft_proc_signal_handler(int signum)
 	}
 }
 
-void	ft_multipipe(int *i, int *pid, t_lst *tmp, int pipe_fd[2][2])
+t_lst	*ft_first_proc(t_lst *tmp, int i, int *pid, int pipe_fd[2][2])
 {
 	if (tmp && !g_o.buildin_flag)
 	{
-		pid[*i] = fork();
-		if (!pid[*i])
-			ft_dup(tmp, *i, pipe_fd);
+		pid[i] = fork();
+		if (!pid[i])
+			ft_dup(tmp, i, pipe_fd);
 		tmp = tmp->next;
 	}
-	close(pipe_fd[0][1]);
-	close(pipe_fd[1][0]);
-	(*i)++;
+	return (tmp);
+}
+
+t_lst	*ft_second_proc(t_lst *tmp, int *i, int *pid, int pipe_fd[2][2])
+{
 	if (*i < g_o.count_final)
 	{
 		g_o.buildin_flag = 0;
@@ -50,6 +52,7 @@ void	ft_multipipe(int *i, int *pid, t_lst *tmp, int pipe_fd[2][2])
 		tmp = tmp->next;
 		(*i)++;
 	}
+	return (tmp);
 }
 
 void	ft_exe(t_lst *tmp, int *pid, int pipe_fd[2][2])
@@ -71,7 +74,11 @@ void	ft_exe(t_lst *tmp, int *pid, int pipe_fd[2][2])
 			}
 			break ;
 		}
-		ft_multipipe(&i, pid, tmp, pipe_fd);
+		tmp = ft_first_proc(tmp, i, pid, pipe_fd);
+		close(pipe_fd[0][1]);
+		close(pipe_fd[1][0]);
+		i++;
+		tmp = ft_second_proc(tmp, &i, pid, pipe_fd);
 	}
 }
 
@@ -115,7 +122,10 @@ char	*ft_find_path(t_lst *tmp)
 	execve(ft_split(tmp->execve[0], ' ')[0], tmp->execve, g_o.env);
 	ft_get_path(tmp, i);
 	write(2, tmp->execve[0], ft_strlen(tmp->execve[0]));
-	write(2, ": cmd not found\n", 16);
+	if (ft_strcmp(tmp->execve[0], "exit"))
+		write(2, ": cmd not found\n", 16);
+	else
+		write(1, "\n", 1);
 	ft_free_all();
 	exit(127);
 }
