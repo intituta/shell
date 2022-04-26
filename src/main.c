@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:48:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/26 15:33:27 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/26 16:17:40 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,40 +73,27 @@ void	ft_multiexe(void)
 	ft_wait(pid, pipe_fd);
 }
 
-void	ft_loop(void)
+int	main(int ac, char **av, char **env)
 {
+	(void)ac;
+	(void)av;
+	ft_init_struct(1);
+	ft_init_env(env);
+	ft_shlvl();
 	while (1)
 	{
 		ft_signals();
-		g_o.input = readline(BEGIN(1, 96)"$ "CLOSE);
+		g_o.input = readline("$ ");
 		if (!g_o.input)
-		{
-			printf("\x1B[1A\x1B[3C" "exit\n");
 			break ;
-		}
 		if (!g_o.input[0])
 		{
 			free(g_o.input);
 			continue ;
 		}
 		add_history(g_o.input);
-		//g_o.page = ft_create_history(g_o.input);
 		ft_preparsing();
 		ft_multiexe();
 		ft_free_all();
 	}
-}
-
-int	main(int ac, char **av, char **env)
-{
-	(void)ac;
-	(void)av;
-	//ft_check_history();
-	ft_init_struct(1);
-	ft_init_env(env);
-	ft_shlvl();
-	//g_o.first = ft_create_history(NULL);
-	//ft_find_history();
-	ft_loop();
-	//ft_write_history(g_o.first);
 }
