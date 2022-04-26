@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 10:17:18 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/25 12:38:45 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/26 14:38:28 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,23 +43,52 @@ void	ft_dup2(t_lst *tmp, int i, int pipe_fd[2][2])
 	ft_find_path(tmp);
 }
 
+void	ft_proc_signal_handler(int signum)
+{
+	if (signum == SIGINT)
+	{
+		write(1, "\n", 1);
+		signal(SIGINT, ft_proc_signal_handler);
+	}
+	if (signum == SIGQUIT)
+	{
+		write(1, "\n", 1);
+		signal(SIGQUIT, ft_proc_signal_handler);
+	}
+}
+
 void	ft_exe(t_lst *tmp, int *pid, int pipe_fd[2][2])
 {
 	int		i;
 
 	i = 0;
+	signal(SIGINT, ft_proc_signal_handler);
+	signal(SIGQUIT, ft_proc_signal_handler);
 	while (i < g_o.count_final)
 	{
 		pipe(pipe_fd[0]);
-		pid[i] = fork();
-		if (!pid[i])
-			ft_dup(tmp, i, pipe_fd);
+		while (tmp)
+		{
+			if (!ft_interceptor(tmp, pipe_fd[0]))
+			{
+				tmp = tmp->next;
+				continue ;
+			}
+			break ;
+		}
+		if (tmp && g_o.buildin_flag == 0)
+		{
+			pid[i] = fork();
+			if (!pid[i])
+				ft_dup(tmp, i, pipe_fd);
+			tmp = tmp->next;
+		}
 		close(pipe_fd[0][1]);
 		close(pipe_fd[1][0]);
-		tmp = tmp->next;
 		i++;
 		if (i < g_o.count_final)
 		{
+			g_o.buildin_flag = 0;
 			pipe(pipe_fd[1]);
 			pid[i] = fork();
 			if (!pid[i])
@@ -105,6 +134,8 @@ char	*ft_find_path(t_lst *tmp)
 	int		i;
 
 	i = 0;
+	signal(SIGTSTP, SIG_DFL);
+	///ctrt+Z doens't work!!!
 	while (ft_strnstr(g_o.env[i], "PATH=", 5) == NULL)
 		if (g_o.env[++i] == NULL)
 			return (write(1, "error: unset path\n", 18), ft_free_all(), NULL);

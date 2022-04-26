@@ -1,27 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_export_add2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/25 12:15:16 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/26 13:39:11 by kferterb         ###   ########.fr       */
+/*   Created: 2022/04/25 17:45:28 by kferterb          #+#    #+#             */
+/*   Updated: 2022/04/26 13:39:47 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	ft_pwd(t_lst *tmp, int *pipe)
+void	ft_check_out_builtin(t_lst *tmp, int *fd, int *pipe)
 {
-	int		fd;
-	char	*path;
+	if (tmp->fd_out > 0)
+	{
+		*fd = tmp->fd_out;
+		g_o.buildin_flag = 1;
+	}
+	else if (tmp->next)
+	{
+		*fd = pipe[1];
+		g_o.buildin_flag = 1;
+	}
+}
 
-	fd = 1;
-	path = NULL;
-	path = getcwd(path, 1000);
-	ft_check_out_builtin(tmp, &fd, pipe);
-	write(fd, path, ft_strlen(path));
-	write(fd, "\n", 1);
-	free(path);
+void	ft_replace_env(char *arg, char *buf, int i)
+{
+	free(g_o.env[i]);
+	ft_strlcpy(buf, arg, 10000);
+	g_o.env[i] = buf;
 }

@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:48:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/25 12:48:06 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/26 12:33:14 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,15 @@ void	ft_shlvl(void)
 void	ft_init_env(char **env)
 {
 	int	i;
-	int	count;
 
 	i = -1;
-	count = 0;
-	while (env[count])
-		count++;
-	if (count > 0)
+	g_o.count_env = 0;
+	while (env[g_o.count_env])
+		g_o.count_env++;
+	if (g_o.count_env > 0)
 	{
-		g_o.env = malloc(sizeof(char *) * count + 1);
-		while (++i < count)
+		g_o.env = malloc(sizeof(char *) * g_o.count_env + 1);
+		while (++i < g_o.count_env)
 			g_o.env[i] = ft_strdup(env[i]);
 		g_o.env[i] = NULL;
 	}
@@ -83,45 +82,39 @@ void	ft_multiexe(void)
 	tmp = g_o.final;
 	g_o.count_final = ft_lstsize(g_o.final);
 	pid = malloc(sizeof(int *) * g_o.count_final);
-	while (tmp)
-	{
-		if (!ft_interceptor(tmp))
-		{
-			tmp = tmp->next;
-			continue ;
-		}
-		break ;
-	}
-	if (tmp)
-	{
-		ft_exe(tmp, pid, pipe_fd);
-		ft_wait(pid, pipe_fd);
-	}
+	ft_exe(tmp, pid, pipe_fd);
+	ft_wait(pid, pipe_fd);
 }
 
 int	main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
+	ft_check_history();
 	ft_init_struct(1);
 	ft_init_env(env);
 	ft_shlvl();
+	g_o.first = ft_create_history(NULL);
+	ft_find_history();
 	while (1)
 	{
 		ft_signals();
-		g_o.input = readline("$ ");
+		g_o.input = readline(BEGIN(1, 96)"$ "CLOSE);
 		if (!g_o.input)
+		{
+			printf("\x1B[1A\x1B[3C" "exit\n");
 			break ;
-		else if (!g_o.input[0])
+		}
+		if (!g_o.input[0])
 		{
 			free(g_o.input);
 			continue ;
 		}
-		else
-		{
-			ft_preparsing();
-			ft_multiexe();
-		}
+		add_history(g_o.input);
+		g_o.page = ft_create_history(g_o.input);
+		ft_preparsing();
+		ft_multiexe();
 		ft_free_all();
 	}
+	ft_write_history(g_o.first);
 }

@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 12:38:13 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/24 19:25:47 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/26 15:13:47 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,11 @@
 void	ft_init_struct(int flag)
 {
 	if (flag)
+	{
 		g_o.env = NULL;
+		g_o.ex_code = 0;
+		g_o.count_env = 0;
+	}
 	g_o.input = NULL;
 	g_o.fd_in = -2;
 	g_o.fd_out = -2;
@@ -26,6 +30,7 @@ void	ft_init_struct(int flag)
 	g_o.final = NULL;
 	g_o.split = NULL;
 	g_o.count_final = 0;
+	g_o.buildin_flag = 0;
 	g_o.final_args = NULL;
 }
 
@@ -83,13 +88,9 @@ void	ft_handler(int sig)
 void	ft_signals(void)
 {
 	struct sigaction	sa;
-	sigset_t			set;
 
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);
 	sa.sa_handler = ft_handler;
-	sigemptyset(&set);
-	sigaddset(&set, SIGINT);
-	sa.sa_mask = set;
 	sigaction(SIGINT, &sa, NULL);
 }

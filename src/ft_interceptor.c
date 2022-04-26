@@ -6,27 +6,28 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 12:53:52 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/25 12:35:18 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/26 14:07:54 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	ft_interceptor(t_lst *tmp)
+int	ft_interceptor(t_lst *tmp, int *pipe_fd)
 {
 	if (!ft_strcmp(tmp->execve[0], "cd"))
-		return (printf("cd OK\n"), 0);
+		return (ft_cd(tmp), 0);
 	else if (!ft_strcmp(tmp->execve[0], "pwd"))
-		return (ft_pwd(), 0);
+		return (ft_pwd(tmp, pipe_fd), 0);
 	else if (!ft_strcmp(tmp->execve[0], "echo"))
-		return (printf("echo OK\n"), 0);
+		return (ft_echo(tmp, pipe_fd), 0);
 	else if (!ft_strcmp(tmp->execve[0], "export"))
-		return (printf("export OK\n"), 0);
+		return (ft_export(tmp, pipe_fd), 0);
 	else if (!ft_strcmp(tmp->execve[0], "unset"))
-		return (printf("unset OK\n"), 0);
+		return (ft_unset(tmp), 0);
 	else if (!ft_strcmp(tmp->execve[0], "env"))
-		return (ft_env(), 0);
+		return (ft_env(tmp, pipe_fd), 0);
 	else if (!ft_strcmp(tmp->execve[0], "exit"))
-		return (printf("exit OK\n"), 0);
+		if (!ft_exit(tmp))
+			exit(g_o.ex_code);
 	return (1);
 }
