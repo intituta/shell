@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 13:19:02 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/27 11:40:06 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/27 13:49:33 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*ft_parse_lite(t_lst *o, int flag, int flag2)
 	else if (ft_open_file(o->next, flag2))
 	{
 		g_o.ex_code = 1;
-		return (write(2, "error open\n", 13), ft_free_all(), NULL);
+		return (write(2, "error open\n", 11), ft_free_all(), NULL);
 	}
 	return (free(o->str), NULL);
 }
