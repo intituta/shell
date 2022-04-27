@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:48:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/27 13:29:26 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/27 13:59:38 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_loop(void)
 	while (1)
 	{
 		ft_signals();
-		g_o.input = readline(BEGIN(1, 96)"$ "CLOSE);
+		g_o.input = readline("$ ");
 		if (!g_o.input)
 		{
 			printf("\x1B[1A\x1B[3C" "exit\n");
