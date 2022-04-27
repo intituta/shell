@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 09:17:43 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/27 10:35:42 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/27 18:35:25 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,14 @@ void	ft_wait(int *pid, int pipe_fd[2][2])
 	close(pipe_fd[1][0]);
 	while (++i < g_o.count_final)
 		waitpid(pid[i], &g_o.ex_code, 0);
-	g_o.ex_code = WEXITSTATUS(g_o.ex_code);
+	if (WEXITSTATUS(g_o.ex_code))
+		g_o.ex_code = WEXITSTATUS(g_o.ex_code);
+	else if (WIFSIGNALED(pid[i]))
+	{
+		g_o.ex_code = WTERMSIG(g_o.ex_code);
+		if (g_o.ex_code != 131 && g_o.ex_code != 0)
+			g_o.ex_code += 128;
+	}
 	free(pid);
 }
 
