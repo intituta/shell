@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 13:19:02 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/27 10:08:51 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/27 11:40:06 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*ft_parse_lite(t_lst *o, int flag, int flag2)
 	if (flag == 1)
 	{
 		ft_heredoc(o->next);
-		ft_free_all();
+		ft_check_heredoc(o);
 	}
 	else if (flag == 2)
 	{

@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 13:40:01 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/27 10:07:07 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/27 11:40:13 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,17 @@ int	ft_open_file(t_lst *o, int flag)
 	free(o->str);
 	o->str = NULL;
 	return (0);
+}
+
+void	ft_check_heredoc(t_lst *o)
+{
+	if (g_o.fd_in > 0)
+	{
+		free(o->next->str);
+		o->next->str = NULL;
+	}
+	else
+		ft_free_all();
 }
 
 void	ft_heredoc(t_lst *o)

@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:49:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/27 10:00:36 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/27 11:40:36 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ char	*ft_parse_dollar(char *str, int *index);
 char	*ft_parse_quotes(t_lst *o, int *j, char c);
 char	*ft_parse_redirect(t_lst *o, int flag, int flag2);
 char	*ft_substr_m(char *s, int start, int len, int flag);
+void	ft_loop(void);
 void	ft_parsing(void);
 void	ft_signals(void);
 void	ft_free_all(void);
@@ -96,6 +97,7 @@ void	ft_heredoc(t_lst *o);
 void	ft_put_list(int flag);
 void	ft_put_final_args(void);
 void	ft_init_struct(int flag);
+void	ft_check_heredoc(t_lst *o);
 void	ft_proc_signal_handler(int signum);
 void	ft_put_redirect_to_list(t_lst *tmp, int *i);
 //buildin
