@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 13:40:01 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/27 11:40:13 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/27 11:43:14 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ void	ft_heredoc(t_lst *o)
 	write(g_o.pipe[1], res, ft_strlen(res));
 	g_o.fd_in = g_o.pipe[0];
 	close(g_o.pipe[1]);
-	free(o->str);
-	o->str = NULL;
 	free(tmp);
 	free(res);
+	free(o->str);
+	o->str = NULL;
 }
 
 void	ft_parsing(void)
