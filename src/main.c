@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:48:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/27 10:57:03 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/27 13:29:26 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,31 +39,6 @@ void	ft_loop(void)
 		ft_multiexe();
 		ft_free_all();
 	}
-}
-
-void	ft_shlvl(void)
-{
-	int		i;
-	char	*tmp;
-
-	i = 0;
-	while (!ft_strnstr(g_o.env[i], "SHLVL=", 6))
-	{
-		if (!g_o.env[++i])
-		{
-			write(2, "unset\n", 6);
-			return ;
-		}
-	}
-	tmp = g_o.env[i];
-	if (ft_atoi(g_o.env[i] + 6) == 999)
-		g_o.env[i] = "SHLVL=";
-	else if (!ft_atoi(g_o.env[i] + 6))
-		g_o.env[i] = "SHLVL=1";
-	else
-		g_o.env[i] = ft_sjoin("SHLVL=",
-				ft_itoa(ft_atoi(g_o.env[i] + 6) + 1), 0, 1);
-	free(tmp);
 }
 
 void	ft_init_env(char **env)

@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:49:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/27 11:40:36 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/27 13:29:41 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ char	*ft_parse_quotes(t_lst *o, int *j, char c);
 char	*ft_parse_redirect(t_lst *o, int flag, int flag2);
 char	*ft_substr_m(char *s, int start, int len, int flag);
 void	ft_loop(void);
+void	ft_shlvl(void);
 void	ft_parsing(void);
 void	ft_signals(void);
 void	ft_free_all(void);
