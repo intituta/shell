@@ -6,69 +6,24 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 12:38:13 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/26 19:30:29 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/27 09:22:13 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	ft_init_struct(int flag)
+void	ft_proc_signal_handler(int signum)
 {
-	if (flag)
+	if (signum == SIGINT)
 	{
-		g_o.env = NULL;
-		g_o.ex_code = 0;
-		g_o.count_env = 0;
+		write(1, "\n", 1);
+		signal(SIGINT, ft_proc_signal_handler);
 	}
-	g_o.input = NULL;
-	g_o.fd_in = -2;
-	g_o.fd_out = -2;
-	g_o.pipe[0] = -2;
-	g_o.pipe[1] = -2;
-	g_o.count = 0;
-	g_o.args = NULL;
-	g_o.final = NULL;
-	g_o.split = NULL;
-	g_o.count_final = 0;
-	g_o.buildin_flag = 0;
-	g_o.final_args = NULL;
-}
-
-void	ft_free_struct(t_lst *s)
-{
-	int		i;
-	t_lst	*tmp;
-
-	i = -1;
-	tmp = s;
-	while (tmp)
+	if (signum == SIGQUIT)
 	{
-		i = -1;
-		while (tmp->execve && tmp->execve[++i])
-			free(tmp->execve[i]);
-		free(tmp->execve);
-		free(tmp->str);
-		tmp->str = NULL;
-		free(tmp);
-		tmp = tmp->next;
+		write(1, "\n", 1);
+		signal(SIGQUIT, ft_proc_signal_handler);
 	}
-}
-
-void	ft_free_all(void)
-{
-	int		i;
-
-	i = -1;
-	close(g_o.pipe[0]);
-	close(g_o.pipe[1]);
-	close(g_o.fd_in);
-	close(g_o.fd_out);
-	while (g_o.split && g_o.split[++i])
-		free(g_o.split[i]);
-	free(g_o.split);
-	ft_free_struct(g_o.args);
-	ft_free_struct(g_o.final);
-	ft_init_struct(0);
 }
 
 void	ft_handler(int sig)

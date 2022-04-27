@@ -1,86 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_multipipe.c                                     :+:      :+:    :+:   */
+/*   ft_exe_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 10:17:18 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/26 19:36:27 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/27 09:21:06 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-void	ft_proc_signal_handler(int signum)
-{
-	if (signum == SIGINT)
-	{
-		write(1, "\n", 1);
-		signal(SIGINT, ft_proc_signal_handler);
-	}
-	if (signum == SIGQUIT)
-	{
-		write(1, "\n", 1);
-		signal(SIGQUIT, ft_proc_signal_handler);
-	}
-}
-
-t_lst	*ft_first_proc(t_lst *tmp, int i, int *pid, int pipe_fd[2][2])
-{
-	if (tmp && !g_o.buildin_flag)
-	{
-		pid[i] = fork();
-		if (!pid[i])
-			ft_dup(tmp, i, pipe_fd);
-		tmp = tmp->next;
-	}
-	return (tmp);
-}
-
-t_lst	*ft_second_proc(t_lst *tmp, int *i, int *pid, int pipe_fd[2][2])
-{
-	if (*i < g_o.count_final)
-	{
-		g_o.buildin_flag = 0;
-		pipe(pipe_fd[1]);
-		pid[*i] = fork();
-		if (!pid[*i])
-			ft_dup2(tmp, *i, pipe_fd);
-		close(pipe_fd[0][0]);
-		close(pipe_fd[1][1]);
-		tmp = tmp->next;
-		(*i)++;
-	}
-	return (tmp);
-}
-
-void	ft_exe(t_lst *tmp, int *pid, int pipe_fd[2][2])
-{
-	int		i;
-
-	i = 0;
-	signal(SIGINT, ft_proc_signal_handler);
-	signal(SIGQUIT, ft_proc_signal_handler);
-	while (i < g_o.count_final)
-	{
-		pipe(pipe_fd[0]);
-		while (tmp)
-		{
-			if (!ft_interceptor(tmp, pipe_fd[0]))
-			{
-				tmp = tmp->next;
-				continue ;
-			}
-			break ;
-		}
-		tmp = ft_first_proc(tmp, i, pid, pipe_fd);
-		close(pipe_fd[0][1]);
-		close(pipe_fd[1][0]);
-		i++;
-		tmp = ft_second_proc(tmp, &i, pid, pipe_fd);
-	}
-}
 
 void	ft_get_path(t_lst *tmp, int i)
 {
@@ -128,4 +58,52 @@ char	*ft_find_path(t_lst *tmp)
 		write(1, "\n", 1);
 	ft_free_all();
 	exit(127);
+}
+
+void	ft_dup(t_lst *tmp, int i, int pipe_fd[2][2])
+{
+	if (tmp->fd_in > 0)
+		dup2(tmp->fd_in, 0);
+	else if (i > 0)
+		dup2(pipe_fd[1][0], 0);
+	if (tmp->fd_out > 0)
+		dup2(tmp->fd_out, 1);
+	else if (i < g_o.count_final - 1)
+		dup2(pipe_fd[0][1], 1);
+	close(pipe_fd[0][0]);
+	close(pipe_fd[0][1]);
+	ft_find_path(tmp);
+}
+
+void	ft_dup2(t_lst *tmp, int i, int pipe_fd[2][2])
+{
+	if (tmp->fd_in > 0)
+		dup2(tmp->fd_in, 0);
+	else if (i > 0)
+		dup2(pipe_fd[0][0], 0);
+	if (tmp->fd_out > 0)
+		dup2(tmp->fd_out, 1);
+	else if (i < g_o.count_final - 1)
+		dup2(pipe_fd[1][1], 1);
+	close(pipe_fd[0][0]);
+	close(pipe_fd[1][0]);
+	close(pipe_fd[1][1]);
+	ft_find_path(tmp);
+}
+
+int	ft_interceptor(t_lst *tmp, int *pipe_fd)
+{
+	if (!ft_strcmp(tmp->execve[0], "cd"))
+		return (ft_cd(tmp), 0);
+	else if (!ft_strcmp(tmp->execve[0], "pwd"))
+		return (ft_pwd(tmp, pipe_fd), 0);
+	else if (!ft_strcmp(tmp->execve[0], "echo"))
+		return (ft_echo(tmp, pipe_fd), 0);
+	else if (!ft_strcmp(tmp->execve[0], "export"))
+		return (ft_export(tmp, pipe_fd), 0);
+	else if (!ft_strcmp(tmp->execve[0], "unset"))
+		return (ft_unset(tmp), 0);
+	else if (!ft_strcmp(tmp->execve[0], "env"))
+		return (ft_env(tmp, pipe_fd), 0);
+	return (1);
 }

@@ -6,26 +6,11 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 09:48:18 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/26 19:22:26 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/27 09:23:07 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-void	free_history(void)
-{
-	t_log	*page;
-	char	*buf;
-
-	while (g_o.first)
-	{
-		page = g_o.first;
-		buf = g_o.first->data;
-		g_o.first = g_o.first->next;
-		free (buf);
-		free (page);
-	}
-}
 
 void	ft_write_history(t_log *first)
 {

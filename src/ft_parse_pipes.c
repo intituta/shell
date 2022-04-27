@@ -1,23 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parsing_utils3.c                                :+:      :+:    :+:   */
+/*   ft_parse_pipes.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/15 13:19:02 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/22 20:37:25 by kferterb         ###   ########.fr       */
+/*   Created: 2022/04/27 09:38:14 by kferterb          #+#    #+#             */
+/*   Updated: 2022/04/27 09:40:31 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-void	ft_concatenator(t_lst *tmp, t_lst *tmp2)
-{
-	g_o.count++;
-	tmp2->next = tmp->next;
-	tmp->next = tmp2;
-}
 
 void	ft_put_final_args(void)
 {

@@ -6,21 +6,11 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:03:41 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/26 16:06:11 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/26 20:19:31 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-void	ft_free_mass(char **str)
-{
-	int		i;
-
-	i = -1;
-	while (str[++i])
-		free(str[i]);
-	free(str);
-}
 
 void	ft_print_env(char **env, t_lst *tmp, int *pipe)
 {

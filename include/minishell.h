@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:49:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/26 19:22:53 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/27 10:00:36 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,33 +75,29 @@ t_lst	*ft_lstnew(void *content);
 int		ft_lstsize(t_lst *lst);
 int		ft_strcmp(char *s1, char *s2);
 char	**ft_split_mod(char *s, char c);
+char	*ft_join(char const *s1, char const *s2, int flag);
 char	*ft_sjoin(char *s1, char *s2, int flag, int flag2);
 void	ft_lstadd_back(t_lst **lst, t_lst *new);
 //logic
-int		ft_start_preparse(t_lst *tmp);
 int		ft_open_file(t_lst *o, int flag);
 int		ft_interceptor(t_lst *tmp, int *pipe_fd);
 int		ft_check_quotes(char *s, int *index, char c);
-char	*ft_find_env(char *s);
-char	*find_dollar(char *str);
-char	*ft_find_path(t_lst *tmp);
+char	*ft_redirects(t_lst *o, int *j);
 char	*ft_parse_dollar(char *str, int *index);
 char	*ft_parse_quotes(t_lst *o, int *j, char c);
-char	*ft_parse_lite(t_lst *o, int flag, int flag2);
-char	*ft_substr_m(char *s, int start, int len, int flag);
 char	*ft_parse_redirect(t_lst *o, int flag, int flag2);
+char	*ft_substr_m(char *s, int start, int len, int flag);
+void	ft_parsing(void);
 void	ft_signals(void);
 void	ft_free_all(void);
-void	ft_check_list(void);
+void	ft_multiexe(void);
 void	ft_preparsing(void);
 void	ft_heredoc(t_lst *o);
 void	ft_put_list(int flag);
 void	ft_put_final_args(void);
 void	ft_init_struct(int flag);
-void	ft_check_parse(t_lst *o);
-void	ft_concatenator(t_lst *tmp, t_lst *tmp2);
+void	ft_proc_signal_handler(int signum);
 void	ft_put_redirect_to_list(t_lst *tmp, int *i);
-void	ft_exe(t_lst *tmp, int *pid, int pipe_fd[2][2]);
 //buildin
 int		ft_exit(t_lst *tmp);
 int		ft_check_oldpwd(void);
@@ -116,20 +112,17 @@ void	ft_env(t_lst *tmp, int *pipe);
 void	ft_echo(t_lst *tmp, int *pipe);
 void	ft_export_add_check(char *arg);
 void	ft_export(t_lst *tmp, int *pipe);
-void	ft_wait(int *pid, int pipe_fd[2][2]);
 void	ft_export_add_env(char *arg, int len);
 void	ft_replace_env(char *arg, char *buf, int i);
 void	ft_dup(t_lst *tmp, int i, int pipe_fd[2][2]);
 void	ft_dup2(t_lst *tmp, int i, int pipe_fd[2][2]);
 void	ft_check_out_builtin(t_lst *tmp, int *fd, int *pipe);
 //history
-t_log	*ft_history_last(t_log *lst);
 t_log	*ft_create_history(char *str);
 int		ft_get_next_line(int fd);
+void	free_history(void);
 void	ft_find_history(void);
 void	ft_check_history(void);
 void	ft_write_history(t_log *first);
 void	ft_history_add_back(t_log **lst, t_log *new);
-void	free_history(void);
-char	*ft_join(char const *s1, char const *s2, int flag);
 #endif

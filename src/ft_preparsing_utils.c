@@ -1,64 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parsing_utils4.c                                :+:      :+:    :+:   */
+/*   ft_preparsing_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/22 13:45:14 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/24 19:30:52 by kferterb         ###   ########.fr       */
+/*   Created: 2022/04/27 09:26:48 by kferterb          #+#    #+#             */
+/*   Updated: 2022/04/27 09:28:00 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	ft_heredoc(t_lst *o)
+void	ft_concatenator(t_lst *tmp, t_lst *tmp2)
 {
-	char	*tmp;
-	char	*res;
-
-	res = NULL;
-	while (1)
-	{
-		tmp = readline("> ");
-		if (ft_strcmp(tmp, o->str) == 0)
-			break ;
-		if (!tmp)
-			return (free(res));
-		if (ft_strlen(res))
-			res = ft_sjoin(res, "\n", 1, 0);
-		res = ft_sjoin(res, tmp, 1, 1);
-	}
-	res = ft_sjoin(res, "\n", 1, 0);
-	pipe(g_o.pipe);
-	write(g_o.pipe[1], res, ft_strlen(res));
-	g_o.fd_in = g_o.pipe[0];
-	close(g_o.pipe[1]);
-	free(o->str);
-	o->str = NULL;
-	free(tmp);
-	free(res);
-}
-
-int	ft_start_preparse(t_lst *tmp)
-{
-	int	i;
-
-	i = -1;
-	while (tmp->str[++i])
-	{
-		if (tmp->str[i] == '\'')
-			if (!ft_check_quotes(tmp->str, &i, '\''))
-				return (1);
-		if (tmp->str[i] == '"')
-			if (!ft_check_quotes(tmp->str, &i, '"'))
-				return (1);
-		if (tmp->str[i] == '>' && tmp->str[i + 1] == '<')
-			return (write(2, "syntax error\n", 13), ft_free_all(), 1);
-		if (tmp->str[i] == '>' || tmp->str[i] == '<' || tmp->str[i] == '|')
-			ft_put_redirect_to_list(tmp, &i);
-	}
-	return (0);
+	g_o.count++;
+	tmp2->next = tmp->next;
+	tmp->next = tmp2;
 }
 
 void	ft_else(t_lst *tmp, int *i)
