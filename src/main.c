@@ -6,7 +6,7 @@
 /*   By: kferterb <kferterb@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:48:33 by kferterb          #+#    #+#             */
-/*   Updated: 2022/04/27 13:59:38 by kferterb         ###   ########.fr       */
+/*   Updated: 2022/04/28 09:07:56 by kferterb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_loop(void)
 		g_o.page = ft_create_history(g_o.input);
 		ft_history_add_back(&g_o.first, g_o.page);
 		ft_preparsing();
-		if (!ft_strcmp(g_o.final->execve[0], "exit")
+		if (g_o.final && !ft_strcmp(g_o.final->execve[0], "exit")
 			&& ft_lstsize(g_o.final) == 1)
 			if (!ft_exit(g_o.final))
 				break ;
