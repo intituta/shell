@@ -1,0 +1,3 @@
+# shell
+The objective of this project is for you to create a simple shell. 
+Tools: fork, execuve, dup2, pipe, termacps, opendir, kill, wait ...
